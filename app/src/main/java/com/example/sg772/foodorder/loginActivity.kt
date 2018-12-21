@@ -11,8 +11,11 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.example.sg772.foodorder.Model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.login_layout.*
 
 class loginActivity : AppCompatActivity() {
@@ -26,11 +29,11 @@ class loginActivity : AppCompatActivity() {
             actionBar.setDisplayShowCustomEnabled(true)
             actionBar.title = ""
             actionBar?.setDisplayHomeAsUpEnabled(true)
-            var name: EditText = findViewById(R.id.name)
-            var email: EditText = findViewById(R.id.email)
-            var pass: EditText = findViewById(R.id.password)
-            var confpass: EditText = findViewById(R.id.conf_password)
-            var reg: Button = findViewById(R.id.submit_button)
+            val name: EditText = findViewById(R.id.name)
+            val email: EditText = findViewById(R.id.email)
+            val pass: EditText = findViewById(R.id.password)
+            val confpass: EditText = findViewById(R.id.conf_password)
+            val reg: Button = findViewById(R.id.submit_button)
             auth = FirebaseAuth.getInstance()
             reg.setOnClickListener {
                 if (pass.text.toString().contentEquals(confpass.text.toString())) {
@@ -43,16 +46,40 @@ class loginActivity : AppCompatActivity() {
     }
 
     private fun createUser() {
-     auth.createUserWithEmailAndPassword(email.text.toString(),password.text.toString())
+        val ema: EditText=findViewById(R.id.email)
+        val pas: EditText=findViewById(R.id.password)
+        val nam: EditText=findViewById(R.id.name)
+        val user_id: String= auth.currentUser!!.uid
+        val current_user_id : DatabaseReference =
+            FirebaseDatabase.getInstance().getReference().child("users")
+
+
+        val user=User( nam.text.toString(),ema.text.toString(),pas.text.toString())
+        current_user_id.child(nam.text.toString()).setValue(user)
+        Toast.makeText(this,"success",Toast.LENGTH_LONG).show()
+    /* auth.createUserWithEmailAndPassword(ema.text.toString(),pas.text.toString())
          .addOnCompleteListener(this){ task ->
              if (task.isSuccessful){ val user=auth.currentUser
+                 val user_id: String= auth.currentUser!!.uid
+                 val current_user_id : DatabaseReference =
+                     FirebaseDatabase.getInstance().getReference("users")
+                 val map=HashMap<String,Any>()
+                 val em:String=ema.text.toString()
+                 val name:String=nam.text.toString()
+                 val pa:String=pas.text.toString()
+                map.put("email",em)
+                 map.put("name",name)
+                 map.put("password",pa)
+
+                 val users=User(name,em,pa)
+current_user_id.child(user_id).setValue(map)
                  Toast.makeText(this,"success",Toast.LENGTH_LONG).show()
              }
              else{
                  val e=task.exception
-                 Toast.makeText(this,e?.message,Toast.LENGTH_LONG).show()
+                 Toast.makeText(this,e?.message.toString(),Toast.LENGTH_LONG).show()
              }
-         }
+         }*/
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
