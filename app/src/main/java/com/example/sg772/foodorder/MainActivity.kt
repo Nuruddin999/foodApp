@@ -49,10 +49,12 @@ login.setOnClickListener(this)
             }
 
             override fun onDataChange(p0: DataSnapshot) {
+
                 val nameusr=p0.child(name.text.toString()).getValue(User::class.java)
                 if (nameusr!!.password!!.equals(pass.text.toString())){
                     Toast.makeText(this@MainActivity,"ok",Toast.LENGTH_LONG).show()
                     startActivity(Intent(this@MainActivity, HomeActivity::class.java))
+                } else {                     Toast.makeText(this@MainActivity,"something wrong",Toast.LENGTH_LONG).show()
                 }
             }
         })

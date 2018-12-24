@@ -1,15 +1,25 @@
 package com.example.sg772.foodorder.viewHolder
 
+import android.support.v7.view.menu.ActionMenuItemView
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import com.example.sg772.foodorder.Interface.itemClickListen
+import com.example.sg772.foodorder.R
 
 
-class menuViewHolder(): RecyclerView.ViewHolder<>,  View.OnClickListener{
-    constructor(itemView: View):this(){
-        super(itemView)
-    }
+class   menuViewHolder(itemView: View): RecyclerView.ViewHolder(itemView),  View.OnClickListener{
+    lateinit var itemClickListen: itemClickListen
+val textMenuName: TextView=itemView.findViewById(R.id.menu_name)
+    val menuImage: ImageView=itemView.findViewById(R.id.menuImage)
+
+fun setItemOnClickListener(itemClickListen: itemClickListen){
+    this.itemClickListen=itemClickListen
+}
+
     override fun onClick(v: View?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+itemClickListen.onClick(v!!,adapterPosition,false)
     }
 
 }
