@@ -1,5 +1,6 @@
 package com.example.sg772.foodorder
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.nfc.Tag
 import android.support.v7.app.AppCompatActivity
@@ -18,9 +19,9 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.login_layout.*
 
-class loginActivity : AppCompatActivity() {
+open class loginActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
-
+private var mProgressDialog: ProgressDialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_layout)
@@ -36,16 +37,33 @@ class loginActivity : AppCompatActivity() {
             val reg: Button = findViewById(R.id.submit_button)
             auth = FirebaseAuth.getInstance()
             reg.setOnClickListener {
+                showprogressDialog()
                 if (pass.text.toString().contentEquals(confpass.text.toString())) {
                     createUser()
                 } else {
+hideProgressDialog()
                     Toast.makeText(this, "no", Toast.LENGTH_LONG).show()
                 }
             }
         }
     }
 
+  fun hideProgressDialog() {
+      if (mProgressDialog != null && mProgressDialog!!.isShowing) {
+          mProgressDialog?.hide()
+      }    }
+
+    fun showprogressDialog() {
+if (mProgressDialog==null){
+    mProgressDialog = ProgressDialog(this@loginActivity)
+    mProgressDialog?.isIndeterminate = true
+    mProgressDialog?.setCancelable(false)
+}
+      mProgressDialog?.show()
+    }
+
     private fun createUser() {
+
         val ema: EditText=findViewById(R.id.email)
         val pas: EditText=findViewById(R.id.password)
         val nam: EditText=findViewById(R.id.name)
@@ -56,6 +74,7 @@ class loginActivity : AppCompatActivity() {
 
         val user=User( nam.text.toString(),ema.text.toString(),pas.text.toString())
         current_user_id.child(nam.text.toString()).setValue(user)
+        hideProgressDialog()
         Toast.makeText(this,"success",Toast.LENGTH_LONG).show()
     /* auth.createUserWithEmailAndPassword(ema.text.toString(),pas.text.toString())
          .addOnCompleteListener(this){ task ->

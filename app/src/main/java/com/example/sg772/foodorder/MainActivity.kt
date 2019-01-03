@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.login_layout.*
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+ class MainActivity : loginActivity(), View.OnClickListener {
     private lateinit var auth: FirebaseAuth
 
 
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_main)
         val register: Button = findViewById(R.id.register)
         val login: Button = findViewById(R.id.login)
-
+setVisible(false)
 login.setOnClickListener(this)
 
         /*    register.setOnClickListener { startActivity(Intent(this@MainActivity, loginActivity::class.java)) }
@@ -38,12 +38,14 @@ login.setOnClickListener(this)
     }
 
     private fun logIn() {
+        showprogressDialog()
         val name: EditText = findViewById(R.id.name_mainAct)
         val pass: EditText = findViewById(R.id.password_mainAct)
         auth = FirebaseAuth.getInstance()
         val database:DatabaseReference=FirebaseDatabase.getInstance().getReference("users")
         database.addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
+                hideProgressDialog()
                 Toast.makeText(this@MainActivity,p0.toException().message,Toast.LENGTH_LONG).show()
 
             }
@@ -52,20 +54,16 @@ login.setOnClickListener(this)
 
                 val nameusr=p0.child(name.text.toString()).getValue(User::class.java)
                 if (nameusr!!.password!!.equals(pass.text.toString())){
+                    hideProgressDialog()
                     Toast.makeText(this@MainActivity,"ok",Toast.LENGTH_LONG).show()
+
                     startActivity(Intent(this@MainActivity, HomeActivity::class.java))
-                } else {                     Toast.makeText(this@MainActivity,"something wrong",Toast.LENGTH_LONG).show()
+                } else { hideProgressDialog()
+                    Toast.makeText(this@MainActivity,"something wrong",Toast.LENGTH_LONG).show()
                 }
             }
         })
-     /*   auth.signInWithEmailAndPassword(email.text.toString(), pass.text.toString())
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(this, "signed in", Toast.LENGTH_LONG).show()
-                } else {
-                    Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
-                }
-            }*/
+
     }
 }
 

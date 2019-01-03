@@ -40,6 +40,8 @@
         </activity>
         <activity android:name=".users">
         </activity>
+        <activity android:name=".FoodList">
+        </activity>
     </application>
 
 </manifest>

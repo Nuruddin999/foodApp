@@ -1,5 +1,6 @@
 package com.example.sg772.foodorder
 
+import android.content.Intent
 import android.icu.util.ULocale
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -27,18 +28,19 @@ import kotlinx.android.synthetic.main.app_bar_home.*
 import java.util.*
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-lateinit var fireBaseDatabase: FirebaseDatabase
+    lateinit var fireBaseDatabase: FirebaseDatabase
     lateinit var database_category: DatabaseReference
     lateinit var recycler_menu: RecyclerView
     lateinit var recycler_layoutmanager: RecyclerView.LayoutManager
+    lateinit var adapter: FirebaseRecyclerAdapter<categories, menuViewHolder>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         setSupportActionBar(toolbar)
         toolbar.setTitle(getString(R.string.toolbar_title_menu))
-fireBaseDatabase= FirebaseDatabase.getInstance()
-        database_category=fireBaseDatabase.getReference("categories")
+        fireBaseDatabase = FirebaseDatabase.getInstance()
+        database_category = fireBaseDatabase.getReference("categories")
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
@@ -51,39 +53,40 @@ fireBaseDatabase= FirebaseDatabase.getInstance()
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
-        var headerView: View=nav_view.getHeaderView(0)
-        var user_name_header: TextView=headerView.findViewById(R.id.user_name_header)
-      //  user_name_header.setText(commonActivity.commonUser.username)
+        var headerView: View = nav_view.getHeaderView(0)
+        //  user_name_header.setText(commonActivity.commonUser.username)
         //Load menu
-        recycler_menu=findViewById(R.id.recycler_menu)
-        recycler_layoutmanager=LinearLayoutManager(this)
-        recycler_menu.layoutManager=recycler_layoutmanager
-        var adapter= object : FirebaseRecyclerAdapter<categories,menuViewHolder>(
+        recycler_menu = findViewById(R.id.recycler_menu)
+        recycler_layoutmanager = LinearLayoutManager(this)
+        recycler_menu.layoutManager = recycler_layoutmanager
+        adapter = object : FirebaseRecyclerAdapter<categories, menuViewHolder>(
             categories::class.java,
             R.layout.menu_item,
             menuViewHolder::class.java,
             database_category
-        ){
+        ) {
             override fun populateViewHolder(viewHolder: menuViewHolder?, model: categories?, position: Int) {
                 if (model != null) {
                     viewHolder!!.textMenuName.setText(model.Name)
                 }
                 Picasso.with(baseContext).load(model!!.Image).into(viewHolder!!.menuImage)
-           var clickItem: categories=model
-                viewHolder.setItemOnClickListener(object: itemClickListen{
-                    override fun onClick(view: View, position: Int, isLongClick: Boolean) {
-                        Toast.makeText(this@HomeActivity, "fffff",Toast.LENGTH_LONG).show()
+                val clickItem: categories = model
+                viewHolder.itemView.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(v: View?) {
+                        val food = Intent(this@HomeActivity, FoodList::class.java)
+                        food.putExtra("categoryId", adapter.getRef(position).key)
+                        startActivity(food)
                     }
                 })
             }
         }
-        recycler_menu.adapter=adapter
-        
+        recycler_menu.adapter = adapter
+
     }
 
 
-  /*  private fun loadMenu() {
-  *//*    var query = FirebaseDatabase.getInstance()
+    /*  private fun loadMenu() {
+    *//*    var query = FirebaseDatabase.getInstance()
             .getReference()
             .child("categories")
             .limitToLast(50)*//*
@@ -137,7 +140,7 @@ recycler_menu.adapter=adapter
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_menu-> {
+            R.id.nav_menu -> {
                 // Handle the camera action
             }
             R.id.nav_cart -> {
@@ -146,7 +149,7 @@ recycler_menu.adapter=adapter
             R.id.nav_orders -> {
 
             }
-            R.id.nav_signout-> {
+            R.id.nav_signout -> {
 
             }
 
