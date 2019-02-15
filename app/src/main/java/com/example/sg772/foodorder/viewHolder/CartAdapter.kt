@@ -36,14 +36,14 @@ val order:Order=list[p1]
         p0.productQuantity.text=order.Quantity
         p0.productPrice.text=order.Price
 p0.deleteButtom.setOnClickListener {
-    var removedTotal: Int=(Integer.parseInt(list[p1].Price)) * (Integer.parseInt(list[p1].Quantity))
+    var removedTotal: Int=(Integer.parseInt(order.Price)) * (Integer.parseInt(order.Quantity))
     var intent= Intent("com.example.sg772.foodorder.RemovedNumber")
     intent.putExtra("rnum",removedTotal)
     LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
     var db=DBHelper(context)
-    db.deleteData(list[p1].ProductName.toString())
-    list.remove(list[p1])
-notifyItemRemoved(p1)
+    db.deleteData(order.ProductName.toString())
+    list.remove(order)
+notifyDataSetChanged()
 
 }
     }

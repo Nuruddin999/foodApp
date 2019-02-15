@@ -67,6 +67,7 @@ total_money=findViewById(R.id.total_money)
             var mReciever= object : BroadcastReceiver(){
                 override fun onReceive(context: Context?, intent: Intent?) {
 
+
                     var numbers= intent?.getIntExtra("rnum",-1)
 
                     var total=Integer.parseInt(total_money.text.toString())- numbers!!

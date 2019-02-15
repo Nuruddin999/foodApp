@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
                                         android:layout_height="100dp"
     android:layout_alignParentBottom="true"
-    app:cardBackgroundColor="#4284ff">
+    app:cardBackgroundColor="#1abbd1">
         <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:layout_margin="5dp" android:layout_alignEnd="@+id/card_view_below_cart_recycler">
             <LinearLayout
