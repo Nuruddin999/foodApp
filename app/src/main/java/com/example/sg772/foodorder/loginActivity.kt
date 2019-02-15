@@ -2,11 +2,9 @@ package com.example.sg772.foodorder
 
 import android.app.ProgressDialog
 import android.content.Intent
-import android.nfc.Tag
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.NavUtils
-import android.text.style.UpdateLayout
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Button
@@ -14,14 +12,13 @@ import android.widget.EditText
 import android.widget.Toast
 import com.example.sg772.foodorder.Model.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.login_layout.*
 
 open class loginActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
-private var mProgressDialog: ProgressDialog? = null
+    private var mProgressDialog: ProgressDialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_layout)
@@ -30,77 +27,81 @@ private var mProgressDialog: ProgressDialog? = null
             actionBar.setDisplayShowCustomEnabled(true)
             actionBar.title = ""
             actionBar?.setDisplayHomeAsUpEnabled(true)
-            val name: EditText = findViewById(R.id.name)
-            val email: EditText = findViewById(R.id.email)
-            val pass: EditText = findViewById(R.id.password)
-            val confpass: EditText = findViewById(R.id.conf_password)
+            var nam: EditText = findViewById(R.id.name)
+            var ema: EditText = findViewById(R.id.email)
+            var pho: EditText = findViewById(R.id.phone)
+            var pas: EditText = findViewById(R.id.password)
+            var confpass: EditText = findViewById(R.id.conf_password)
             val reg: Button = findViewById(R.id.submit_button)
-            auth = FirebaseAuth.getInstance()
             reg.setOnClickListener {
                 showprogressDialog()
-                if (pass.text.toString().contentEquals(confpass.text.toString())) {
-                    createUser()
+                if (pas.text.toString().contentEquals(confpass.text.toString())) {
+                    createUser(nam.text.toString(), ema.text.toString(), pas.text.toString(), pho.text.toString())
+                    writeUser(nam.text.toString(), ema.text.toString(), pho?.text.toString())
                 } else {
-hideProgressDialog()
+                    hideProgressDialog()
                     Toast.makeText(this, "no", Toast.LENGTH_LONG).show()
                 }
             }
         }
     }
 
-  fun hideProgressDialog() {
-      if (mProgressDialog != null && mProgressDialog!!.isShowing) {
-          mProgressDialog?.hide()
-      }    }
+    private fun writeUser(name: String, email: String, phone: String) {
+       var  database=FirebaseDatabase.getInstance().reference
+        val modelUser=User(name,email,null)
+        database.child("users").child(name).setValue(modelUser).addOnCompleteListener {
+            task ->
+            if (task.isSuccessful){
+                Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
+            }
+            else {
+
+                Log.d("writing", task.exception?.message)
+            }
+
+        }
+        hideProgressDialog()
+
+    }
+
+    fun hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog!!.isShowing) {
+            mProgressDialog?.hide()
+        }
+    }
 
     fun showprogressDialog() {
-if (mProgressDialog==null){
-    mProgressDialog = ProgressDialog(this@loginActivity)
-    mProgressDialog?.isIndeterminate = true
-    mProgressDialog?.setCancelable(false)
-}
-      mProgressDialog?.show()
+        if (mProgressDialog == null) {
+            mProgressDialog = ProgressDialog(this@loginActivity)
+            mProgressDialog?.isIndeterminate = true
+            mProgressDialog?.setCancelable(false)
+        }
+        mProgressDialog?.show()
     }
 
-    private fun createUser() {
+    private fun createUser(name: String, email: String, password: String, phone: String) {
+        auth = FirebaseAuth.getInstance()
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Log.d("Creation User", "user created")
+                    val user = auth.currentUser
+                    val profileUpdate = UserProfileChangeRequest.Builder()
+                        .setDisplayName(name)
+                        .build()
+                    user!!.updateProfile(profileUpdate)
+                    hideProgressDialog()
+                } else {
+                    Log.d("warning", task.exception?.message)
+                    Toast.makeText(
+                        baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    hideProgressDialog()
+                }
+            }
 
-        val ema: EditText=findViewById(R.id.email)
-        val pas: EditText=findViewById(R.id.password)
-        val nam: EditText=findViewById(R.id.name)
-        val user_id: String= auth.currentUser!!.uid
-        val current_user_id : DatabaseReference =
-            FirebaseDatabase.getInstance().getReference().child("users")
-
-
-        val user=User( nam.text.toString(),ema.text.toString(),pas.text.toString())
-        current_user_id.child(nam.text.toString()).setValue(user)
-        hideProgressDialog()
-        Toast.makeText(this,"success",Toast.LENGTH_LONG).show()
-    /* auth.createUserWithEmailAndPassword(ema.text.toString(),pas.text.toString())
-         .addOnCompleteListener(this){ task ->
-             if (task.isSuccessful){ val user=auth.currentUser
-                 val user_id: String= auth.currentUser!!.uid
-                 val current_user_id : DatabaseReference =
-                     FirebaseDatabase.getInstance().getReference("users")
-                 val map=HashMap<String,Any>()
-                 val em:String=ema.text.toString()
-                 val name:String=nam.text.toString()
-                 val pa:String=pas.text.toString()
-                map.put("email",em)
-                 map.put("name",name)
-                 map.put("password",pa)
-
-                 val users=User(name,em,pa)
-current_user_id.child(user_id).setValue(map)
-                 Toast.makeText(this,"success",Toast.LENGTH_LONG).show()
-             }
-             else{
-                 val e=task.exception
-                 Toast.makeText(this,e?.message.toString(),Toast.LENGTH_LONG).show()
-             }
-         }*/
     }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
@@ -113,3 +114,5 @@ current_user_id.child(user_id).setValue(map)
         return super.onOptionsItemSelected(item)
     }
 }
+
+

@@ -15,51 +15,58 @@
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:text="Name"
                 android:ems="10"
                 android:id="@+id/name"
                 android:background="@drawable/shape_menu"
                 android:layout_marginHorizontal="43dp"
                 android:padding="7dp"
                 android:layout_marginTop="5dp"
-                android:textColor="#ffffff"/>
+                android:textColor="#ffffff" android:hint="name"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:text="Email"
+
                 android:ems="10"
                 android:id="@+id/email"
+                android:inputType="textEmailAddress"
                 android:background="@drawable/shape_menu"
                 android:layout_marginHorizontal="43dp"
                 android:padding="7dp"
                 android:layout_marginTop="5dp"
-                android:textColor="#ffffff"/>
+                android:textColor="#ffffff" android:hint="email"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:ems="10"
+                android:id="@+id/phone"
+                android:background="@drawable/shape_menu"
+                android:layout_marginHorizontal="43dp"
+                android:padding="7dp"
+                android:layout_marginTop="5dp"
+                android:textColor="#ffffff" android:hint="phone"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:text="Password"
                 android:ems="10"
                 android:id="@+id/password"
                 android:background="@drawable/shape_menu"
                 android:layout_marginHorizontal="43dp"
                 android:padding="7dp"
                 android:layout_marginTop="5dp"
-                android:textColor="#ffffff"/>
+                android:textColor="#ffffff" android:hint="password"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:text="Confirm password"
                 android:ems="10"
                 android:id="@+id/conf_password"
                 android:background="@drawable/shape_menu"
                 android:layout_marginHorizontal="43dp"
                 android:padding="7dp"
                 android:layout_marginTop="5dp"
-                android:textColor="#ffffff"/>
+                android:textColor="#ffffff" android:hint="confirm password"/>
         <Button
                 android:text="submit"
                 android:layout_width="match_parent"

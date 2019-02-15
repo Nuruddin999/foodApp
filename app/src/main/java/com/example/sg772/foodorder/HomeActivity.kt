@@ -1,10 +1,14 @@
 package com.example.sg772.foodorder
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.icu.util.ULocale
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
@@ -14,12 +18,16 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.example.sg772.foodorder.Interface.itemClickListen
 import com.example.sg772.foodorder.Model.categories
+import com.example.sg772.foodorder.utils.DBHelper
 import com.example.sg772.foodorder.viewHolder.menuViewHolder
 import com.firebase.ui.database.FirebaseRecyclerAdapter
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
@@ -27,23 +35,25 @@ import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
 import java.util.*
 
-class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class HomeActivity : loginActivity(), NavigationView.OnNavigationItemSelectedListener {
     lateinit var fireBaseDatabase: FirebaseDatabase
     lateinit var database_category: DatabaseReference
     lateinit var recycler_menu: RecyclerView
     lateinit var recycler_layoutmanager: RecyclerView.LayoutManager
     lateinit var adapter: FirebaseRecyclerAdapter<categories, menuViewHolder>
-
+    lateinit var nav_menu_text: TextView
+    lateinit var nav_menu_orders_in_cart_number_text: TextView
+    lateinit var sign_out: LinearLayout
+    lateinit var orders: LinearLayout
+    lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        setSupportActionBar(toolbar)
-        toolbar.setTitle(getString(R.string.toolbar_title_menu))
         fireBaseDatabase = FirebaseDatabase.getInstance()
         database_category = fireBaseDatabase.getReference("categories")
+
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            startActivity(Intent(this@HomeActivity, CartActivity::class.java))
         }
 
         val toggle = ActionBarDrawerToggle(
@@ -51,9 +61,21 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         )
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
-
+        nav_menu_text = findViewById(R.id.nav_menu_text)
+        nav_menu_orders_in_cart_number_text = findViewById(R.id.orders_in_cart)
         nav_view.setNavigationItemSelectedListener(this)
-        var headerView: View = nav_view.getHeaderView(0)
+        var mReciever= object :BroadcastReceiver(){
+            override fun onReceive(context: Context?, intent: Intent?) {
+                var numbers= intent?.getIntExtra("num",-1)
+                nav_menu_orders_in_cart_number_text.text=numbers.toString()
+            }
+
+        }
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReciever, object : IntentFilter("com.example.sg772.foodorder.NumOrd"){})
+
+
+
         //  user_name_header.setText(commonActivity.commonUser.username)
         //Load menu
         recycler_menu = findViewById(R.id.recycler_menu)
@@ -81,37 +103,28 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
         recycler_menu.adapter = adapter
+        //nav menu
+        sign_out=findViewById(R.id.sign_out)
+        sign_out.setOnClickListener {
+           auth=FirebaseAuth.getInstance()
+            auth.signOut()
+            startActivity(Intent(this@HomeActivity, MainActivity::class.java))
+        }
+orders=findViewById(R.id.nav_menu_orders)
+        orders.setOnClickListener {
+            startActivity(Intent(this@HomeActivity, RequestsListActivity::class.java))
+        }
 
     }
 
 
-    /*  private fun loadMenu() {
-    *//*    var query = FirebaseDatabase.getInstance()
-            .getReference()
-            .child("categories")
-            .limitToLast(50)*//*
+    override fun onResume() {
+        var db=DBHelper(this)
+        var list=db.readData()
+        nav_menu_orders_in_cart_number_text.text=list.size.toString()
 
-var adapter= object : FirebaseRecyclerAdapter<categories,menuViewHolder>(
-    categories::class.java,
-    R.layout.menu_item,
-    menuViewHolder::class.java,
-    database_category
-){
-    override fun populateViewHolder(viewHolder: menuViewHolder, model: categories, position: Int) {
-        viewHolder.textMenuName.setText(model.category_name)
-        Picasso.with(baseContext).load(model.image).into(viewHolder.menuImage)
-        var clickItem: categories=model
-        viewHolder.setItemOnClickListener(object : itemClickListen{
-            override fun onClick(view: View, position: Int, isLongClick: Boolean) {
-       Toast.makeText(this@HomeActivity, ""+clickItem.category_name,Toast.LENGTH_LONG).show()
-            }
-        })
+        super.onResume()
     }
-}
-
-recycler_menu.adapter=adapter
-    }*/
-
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
@@ -160,3 +173,4 @@ recycler_menu.adapter=adapter
     }
 
 }
+

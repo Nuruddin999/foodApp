@@ -9,8 +9,7 @@
     <EditText
             android:layout_width="match_parent"
             android:layout_height="63dp"
-            android:inputType="textPersonName"
-            android:hint="name"
+            android:hint="email"
             android:textColorHint="#fff"
             android:ems="10"
             android:id="@+id/name_mainAct"
@@ -56,7 +55,8 @@
                 android:layout_height="match_parent"
                 android:id="@+id/login"
                 android:background="@drawable/button_shape"
-                android:textColor="#ffffff" android:layout_weight="1"/>
+                android:textColor="#ffffff" android:layout_weight="1"
+        android:onClick="onClick"/>
         <Button
                 android:text="Register"
                 android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.sg772.foodorder">
 
@@ -33,14 +33,27 @@
         </activity>
         <activity
                 android:name=".HomeActivity"
-                android:label="@string/title_activity_home"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity android:name=".Model.User">
         </activity>
         <activity android:name=".users">
         </activity>
-        <activity android:name=".FoodList">
+        <activity
+                android:name=".FoodList"
+                android:parentActivityName=".HomeActivity">
+        </activity>
+        <activity
+                android:name=".FoodDetailActivity"
+                android:parentActivityName=".FoodList">
+        </activity>
+        <activity android:name=".CartActivity">
+        </activity>
+        <activity
+                android:name=".placeOrderActivity"
+                android:label="@string/title_activity_place_order">
+        </activity>
+        <activity android:name=".RequestsListActivity">
         </activity>
     </application>
 

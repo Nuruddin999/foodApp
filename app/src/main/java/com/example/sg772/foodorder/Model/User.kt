@@ -7,15 +7,15 @@ import com.google.firebase.database.IgnoreExtraProperties
 class User  {
     var username: String?=null
     var email:String?=null
-    var password:String? =null
+    var phone:String? =null
     constructor() {
 
     }
 
-    constructor(username: String?, email: String?, password: String?) {
+    constructor(username: String?, email: String?,  phone: String?) {
         this.username = username
         this.email = email
-        this.password = password
+        this.phone=phone
     }
 
 
