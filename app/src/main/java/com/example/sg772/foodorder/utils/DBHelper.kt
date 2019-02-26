@@ -19,7 +19,7 @@ val COL_PRODUCTQUANTITY = "Quantity"
 val COL_PRODUCTPRICE = "Price"
 val COL_PRODUCTDISCOUNT = "Discount"
 
-class DBHelper(var context: Context) :
+open class DBHelper(var context: Context) :
     SQLiteOpenHelper(context, DB_NAME, null, 1) {
     override fun onCreate(db: SQLiteDatabase?) {
         val createTAble = " CREATE TABLE " + TABLE_NAME +
@@ -75,7 +75,13 @@ val query="select * from "+ TABLE_NAME+" where "+ COL_USER+"="+"'"+usr+"'"
     }
     fun deleteData(name: String){
         val db=this.writableDatabase
-        val query="delete  from "+ TABLE_NAME+" where "+ COL_PRODUCTNAME+"="+"'"+name+"'"
+        val query="delete  from "+ TABLE_NAME+ " where "+ COL_PRODUCTNAME+"="+"'"+name+"'"
         val result=db.execSQL(query)
+    }
+    fun deleteAll(){
+        val db=this.writableDatabase
+        val query="delete  from "+ TABLE_NAME
+        db.execSQL(query)
+
     }
     }

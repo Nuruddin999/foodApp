@@ -5,10 +5,10 @@ import java.util.ArrayList
 class Request {
     var Name: String? = null
     var Phone: String? = null
-    var Street: String? = null
-    var Home:String?= null
-    var Flat:String?=null
+    var Address: String? = null
     var Status: String?=null
+    var Dishes: List<Order>?=null
+
 
 
     constructor(){
@@ -18,18 +18,15 @@ class Request {
     constructor(
         Name: String?,
         Phone: String?,
-        Street: String?,
-        Home: String?,
-        Flat: String?,
-        Status: String?
+        Address: String?,
+        Dishes: List<Order>?
 
     ) {
         this.Name = Name
         this.Phone = Phone
-        this.Street = Street
-        this.Home = Home
-        this.Flat = Flat
-        this.Status=Status
+        this.Address = Address
+        this.Dishes=Dishes
+        this.Status="0"
 
     }
 

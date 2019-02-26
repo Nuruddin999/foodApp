@@ -32,6 +32,7 @@ import com.example.sg772.foodorder.Model.Request
 import com.example.sg772.foodorder.utils.DBHelper
 import com.example.sg772.foodorder.viewHolder.RequestAdapter
 import com.example.sg772.foodorder.viewHolder.placeOrderList
+import com.google.android.gms.common.internal.service.Common
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
@@ -48,9 +49,7 @@ class placeOrderActivity : AppCompatActivity() {
 
     lateinit var Name: TextView
     lateinit var Phone: TextView
-    lateinit var Street: TextView
-    lateinit var Home: TextView
-    lateinit var Flat: TextView
+    lateinit var Address: TextView
     lateinit var listOrdered: ArrayList<Order>
     lateinit var recyclerView: RecyclerView
     lateinit var layoutManager: LinearLayoutManager
@@ -62,9 +61,7 @@ class placeOrderActivity : AppCompatActivity() {
         // init
         Name = findViewById(R.id.place_order_name)
         Phone = findViewById(R.id.place_order_phone)
-        Street = findViewById(R.id.place_order_street)
-        Home = findViewById(R.id.place_order_house)
-        Flat = findViewById(R.id.place_order_flat)
+        Address = findViewById(R.id.place_order_address)
         makeOrder = findViewById(R.id.make_order_button)
         //recycler view
         var db = DBHelper(this)
@@ -74,19 +71,24 @@ class placeOrderActivity : AppCompatActivity() {
         recyclerView.layoutManager = layoutManager
         orderedFoodAdapter = RequestAdapter(listOrdered)
         recyclerView.adapter = orderedFoodAdapter
+        var user: String? = FirebaseAuth.getInstance().currentUser?.displayName
+        Name.text = user
 //place order
 
 
         makeOrder.setOnClickListener {
-val request=Request(Name = Name.text.toString(),Phone = Phone.text.toString(),Street = Street.text.toString(),Home = Home.text.toString(),Flat = Flat.text.toString(),Status = "accepted")
+            val request = Request(
+                Name = Name.text.toString(),
+                Phone = Phone.text.toString(),
+                Address = Address.text.toString(),
+                Dishes = listOrdered
+            )
 
-var user: String? = FirebaseAuth.getInstance().currentUser?.displayName
-            var mDatabase=FirebaseDatabase.getInstance().reference
-            mDatabase.child("Requests").child(user.toString()).setValue(request)
 
-
-            mDatabase.child("Requests").child(user.toString()).child("Order").setValue(listOrdered)
-            startActivity(Intent(this@placeOrderActivity,RequestsListActivity::class.java))
+            var mDatabase = FirebaseDatabase.getInstance().reference
+            mDatabase.child("Requests").child(System.currentTimeMillis().toString()).setValue(request)
+object : DBHelper(baseContext){}.deleteAll()
+            startActivity(Intent(this@placeOrderActivity, RequestsListActivity::class.java))
         }
 
 

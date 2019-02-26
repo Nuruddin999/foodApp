@@ -23,7 +23,6 @@
     <string name="title_activity_place_order">Place order</string>
     <string name="place_order_phone">phone</string>
     <string name="place_order_name">Name</string>
-    <string name="place_order_street">Street</string>
-    <string name="place_order_house">House</string>
-    <string name="place_order_flat">Flat</string>
+    <string name="place_order_street">Address</string>
+
 </resources>

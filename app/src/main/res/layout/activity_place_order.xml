@@ -64,57 +64,17 @@ android:background="@drawable/neondelivery">
             android:layout_marginTop="12dp">
 
                 <EditText
-                        android:id="@+id/place_order_street"
+                        android:id="@+id/place_order_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/place_order_street"
                         android:imeActionId="6"
-                        android:imeActionLabel="@string/action_sign_in_short"
                         android:imeOptions="actionUnspecified"
                         android:inputType="text"
                         android:maxLines="1"
                         android:singleLine="true"
                         android:textColor="#fff"
                         />
-
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#b1ffffff"
-            android:layout_marginTop="12dp">
-
-                <EditText
-                        android:id="@+id/place_order_house"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/place_order_house"
-                        android:imeActionId="6"
-                        android:imeActionLabel="@string/action_sign_in_short"
-                        android:imeOptions="actionUnspecified"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:textColor="#fff"/>
-
-            </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="#b1ffffff">
-
-                <EditText
-                        android:id="@+id/place_order_flat"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/place_order_flat"
-                        android:imeActionId="6"
-                        android:imeActionLabel="@string/action_sign_in_short"
-                        android:imeOptions="actionUnspecified"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:singleLine="true"/>
 
             </android.support.design.widget.TextInputLayout>
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -125,7 +85,7 @@ android:background="@drawable/neondelivery">
             <ScrollView
                     android:id="@+id/login_form"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="300dp">
 <android.support.v7.widget.RecyclerView
         android:id="@+id/place_order_recycler_view"
         android:layout_width="match_parent"

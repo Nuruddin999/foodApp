@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -22,14 +23,15 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.example.sg772.foodorder.Interface.itemClickListen
+import com.example.sg772.foodorder.Model.Order
+import com.example.sg772.foodorder.Model.Request
 import com.example.sg772.foodorder.Model.categories
 import com.example.sg772.foodorder.utils.DBHelper
 import com.example.sg772.foodorder.viewHolder.menuViewHolder
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
@@ -46,6 +48,8 @@ class HomeActivity : loginActivity(), NavigationView.OnNavigationItemSelectedLis
     lateinit var sign_out: LinearLayout
     lateinit var orders: LinearLayout
     lateinit var auth: FirebaseAuth
+    lateinit var requests: TextView
+    lateinit var requestList: MutableList<Request>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -63,22 +67,26 @@ class HomeActivity : loginActivity(), NavigationView.OnNavigationItemSelectedLis
         toggle.syncState()
         nav_menu_text = findViewById(R.id.nav_menu_text)
         nav_menu_orders_in_cart_number_text = findViewById(R.id.orders_in_cart)
+        requests = findViewById(R.id.requests)
+        recycler_menu = findViewById(R.id.recycler_menu)
+        sign_out = findViewById(R.id.sign_out)
+        orders = findViewById(R.id.nav_menu_orders)
+
         nav_view.setNavigationItemSelectedListener(this)
-        var mReciever= object :BroadcastReceiver(){
+        var mReciever = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
-                var numbers= intent?.getIntExtra("num",-1)
-                nav_menu_orders_in_cart_number_text.text=numbers.toString()
+                var numbers = intent?.getIntExtra("num", -1)
+                nav_menu_orders_in_cart_number_text.text = numbers.toString()
             }
 
         }
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(mReciever, object : IntentFilter("com.example.sg772.foodorder.NumOrd"){})
-
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(mReciever, object : IntentFilter("com.example.sg772.foodorder.NumOrd") {})
 
 
         //  user_name_header.setText(commonActivity.commonUser.username)
         //Load menu
-        recycler_menu = findViewById(R.id.recycler_menu)
         recycler_layoutmanager = LinearLayoutManager(this)
         recycler_menu.layoutManager = recycler_layoutmanager
         adapter = object : FirebaseRecyclerAdapter<categories, menuViewHolder>(
@@ -103,15 +111,51 @@ class HomeActivity : loginActivity(), NavigationView.OnNavigationItemSelectedLis
             }
         }
         recycler_menu.adapter = adapter
+        var user = FirebaseAuth.getInstance().currentUser?.displayName
+
+      requestList= mutableListOf()
         //nav menu
-        sign_out=findViewById(R.id.sign_out)
+        var mDatabase=FirebaseDatabase.getInstance().reference
+
+/*        mDatabase.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                for (d in p0.children) {
+                    var modelRequest: Request? = d.child("Requests").child(user.toString()).getValue(Request::class.java)
+                    var ord: Order? =d.child("Orders").getValue(Order::class.java)
+                    Log.d("loadedList", "ok")
+                    requestList.add(modelRequest!!)
+
+                }
+
+            }
+        })
+        requests.text = requestList.size.toString()
+*//*var requestListener=object :ValueEventListener{
+    override fun onCancelled(p0: DatabaseError) {
+
+    }
+
+    override fun onDataChange(p0: DataSnapshot) {
+       var request=p0.getValue(Request::class.java)
+        var requestModel=Request(request?.Name, request?.Phone, request?.Street, request?.Home, request?.Flat,
+            request?.Status
+        )
+        requestList.add(requestModel)
+        requests.text=requestList.size.toString()
+    }
+}*/
         sign_out.setOnClickListener {
-           auth=FirebaseAuth.getInstance()
+            auth = FirebaseAuth.getInstance()
             auth.signOut()
             startActivity(Intent(this@HomeActivity, MainActivity::class.java))
         }
-orders=findViewById(R.id.nav_menu_orders)
+
         orders.setOnClickListener {
+
             startActivity(Intent(this@HomeActivity, RequestsListActivity::class.java))
         }
 
@@ -119,12 +163,14 @@ orders=findViewById(R.id.nav_menu_orders)
 
 
     override fun onResume() {
-        var db=DBHelper(this)
-        var list=db.readData()
-        nav_menu_orders_in_cart_number_text.text=list.size.toString()
-
+        var db = DBHelper(this)
+        var list = db.readData()
+        nav_menu_orders_in_cart_number_text.text = list.size.toString()
+        var user = FirebaseAuth.getInstance().currentUser?.displayName.toString()
+         requestList = mutableListOf()
         super.onResume()
     }
+
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)

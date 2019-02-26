@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView
 import com.example.sg772.foodorder.Model.Order
 import com.example.sg772.foodorder.Model.Request
 import com.firebase.ui.database.FirebaseRecyclerAdapter
+import com.google.android.gms.common.internal.service.Common
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
@@ -22,26 +23,41 @@ class RequestsListActivity : AppCompatActivity() {
         linearLayout = LinearLayoutManager(this)
         recyclerView.layoutManager = linearLayout
 
-var user= FirebaseAuth.getInstance().currentUser?.displayName.toString()
+        var user = FirebaseAuth.getInstance().currentUser?.displayName.toString()
         var dbReference =
-            FirebaseDatabase.getInstance().getReference("Requests").child(user.toString()).child("Order")
-        var adapter = object : FirebaseRecyclerAdapter<Order, RequestListClass>(
-            Order::class.java,
+            FirebaseDatabase.getInstance().getReference("Requests")
+        var adapter = object : FirebaseRecyclerAdapter<Request, RequestListClass>(
+            Request::class.java,
             R.layout.request_list_item,
             RequestListClass::class.java,
-            dbReference
+            dbReference.orderByChild("name").equalTo(user)
         ) {
-            override fun populateViewHolder(viewHolder: RequestListClass?, model: Order?, position: Int) {
-                viewHolder!!.reqName.setText(model!!.ProductName)
-                viewHolder!!.reqQuantity.setText(model!!.Quantity)
-                viewHolder!!.reqPrice.setText(model!!.Price)
-                viewHolder!!.reqStatus.setText("accepted")
-        var total: Int=Integer.parseInt(model.Quantity)*Integer.parseInt(model.Price)
-                viewHolder.reqTotal.text=total.toString()
+            override fun populateViewHolder(viewHolder: RequestListClass?, model: Request?, position: Int) {
+                viewHolder!!.reqName.setText(model!!.Name)
+                viewHolder!!.reqId.setText(getRef(position).key.toString())
+                viewHolder!!.reqAddress.setText(model!!.Address)
+                viewHolder!!.reqStatus.setText(converToCodeStatus(model.Status))
+
             }
 
         }
-recyclerView.adapter=adapter
+        recyclerView.adapter = adapter
+    }
+
+    private fun converToCodeStatus(status: String?): String {
+        if (status.equals("0")) {
+            return "Placed"
+        }
+        else if (status.equals("1")){
+            return "On my way"
+        }
+        else if (status.equals("2")){
+            return "Shipped"
+        }
+        else {
+            return "Cancelled"
+        }
+
     }
 }
 
