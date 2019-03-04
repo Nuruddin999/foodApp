@@ -43,9 +43,12 @@ import kotlinx.android.synthetic.main.app_bar_home.*
 import java.util.*
 
 class HomeActivity : loginActivity(), NavigationView.OnNavigationItemSelectedListener {
+   //databases
     lateinit var fireBaseDatabase: FirebaseDatabase
     lateinit var database_category: DatabaseReference
     lateinit var globalSearchSuggestionBase: DatabaseReference
+    lateinit var requestDatabase: DatabaseReference
+    //databases end
     lateinit var recycler_menu: RecyclerView
     lateinit var recycler_layoutmanager: RecyclerView.LayoutManager
     lateinit var adapter: FirebaseRecyclerAdapter<categories, menuViewHolder>
@@ -59,12 +62,14 @@ class HomeActivity : loginActivity(), NavigationView.OnNavigationItemSelectedLis
     lateinit var requestList: MutableList<Request>
     lateinit var global_search: MaterialSearchBar
     lateinit var lastsuggestions: ArrayList<String>
+    lateinit var ordersList:ArrayList<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         fireBaseDatabase = FirebaseDatabase.getInstance()
         database_category = fireBaseDatabase.getReference("categories")
         globalSearchSuggestionBase = fireBaseDatabase.getReference("Food")
+        //global search
         global_search = findViewById(R.id.global_search_home_activity)
         lastsuggestions = ArrayList<String>()
         loadSuggest()
@@ -108,6 +113,7 @@ class HomeActivity : loginActivity(), NavigationView.OnNavigationItemSelectedLis
                 startSSearch(text)
             }
         })
+        //global search
         fab.setOnClickListener { view ->
             startActivity(Intent(this@HomeActivity, CartActivity::class.java))
         }
@@ -210,7 +216,31 @@ class HomeActivity : loginActivity(), NavigationView.OnNavigationItemSelectedLis
 
             startActivity(Intent(this@HomeActivity, RequestsListActivity::class.java))
         }
+//display number of orders
+        ordersList=ArrayList<String>()
 
+
+        requestDatabase=fireBaseDatabase.getReference("Requests")
+      loadOrdersList()
+
+    }
+
+    private fun loadOrdersList() {
+        requestDatabase.addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                var count: Int=0
+                for (r in p0.children){
+                    /*var request: Request? =r.getValue(Request::class.java)
+                    ordersList.add(r.key.toString())*/
+count++
+                    requests.text=count.toString()
+                }
+            }
+        })
+        requests.text=ordersList.size.toString()
     }
 
     private fun startSSearch(text: CharSequence?) {
