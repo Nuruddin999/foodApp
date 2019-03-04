@@ -14,6 +14,8 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -23,15 +25,18 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.example.sg772.foodorder.Interface.itemClickListen
+import com.example.sg772.foodorder.Model.Food
 import com.example.sg772.foodorder.Model.Order
 import com.example.sg772.foodorder.Model.Request
 import com.example.sg772.foodorder.Model.categories
 import com.example.sg772.foodorder.utils.DBHelper
+import com.example.sg772.foodorder.viewHolder.FoodViewHolder
 import com.example.sg772.foodorder.viewHolder.menuViewHolder
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import com.mancj.materialsearchbar.MaterialSearchBar
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
@@ -40,9 +45,11 @@ import java.util.*
 class HomeActivity : loginActivity(), NavigationView.OnNavigationItemSelectedListener {
     lateinit var fireBaseDatabase: FirebaseDatabase
     lateinit var database_category: DatabaseReference
+    lateinit var globalSearchSuggestionBase: DatabaseReference
     lateinit var recycler_menu: RecyclerView
     lateinit var recycler_layoutmanager: RecyclerView.LayoutManager
     lateinit var adapter: FirebaseRecyclerAdapter<categories, menuViewHolder>
+    lateinit var searchadapter: FirebaseRecyclerAdapter<Food, FoodViewHolder>
     lateinit var nav_menu_text: TextView
     lateinit var nav_menu_orders_in_cart_number_text: TextView
     lateinit var sign_out: LinearLayout
@@ -50,12 +57,57 @@ class HomeActivity : loginActivity(), NavigationView.OnNavigationItemSelectedLis
     lateinit var auth: FirebaseAuth
     lateinit var requests: TextView
     lateinit var requestList: MutableList<Request>
+    lateinit var global_search: MaterialSearchBar
+    lateinit var lastsuggestions: ArrayList<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         fireBaseDatabase = FirebaseDatabase.getInstance()
         database_category = fireBaseDatabase.getReference("categories")
+        globalSearchSuggestionBase = fireBaseDatabase.getReference("Food")
+        global_search = findViewById(R.id.global_search_home_activity)
+        lastsuggestions = ArrayList<String>()
+        loadSuggest()
+        global_search.lastSuggestions = lastsuggestions
+        global_search.addTextChangeListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                var suggest = ArrayList<String>()
+                for (sg in lastsuggestions) {
+                    if (sg.toLowerCase().contains(global_search.text.toLowerCase())) {
+                        suggest.add(sg)
+                    }
+                    global_search.lastSuggestions = suggest
+                }
+            }
 
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                var suggest = ArrayList<String>()
+                for (sg in lastsuggestions) {
+                    if (sg.toLowerCase().contains(global_search.text.toLowerCase())) {
+                        suggest.add(sg)
+                    }
+                    global_search.lastSuggestions = suggest
+                }
+            }
+        })
+        global_search.setOnSearchActionListener(object : MaterialSearchBar.OnSearchActionListener {
+            override fun onButtonClicked(buttonCode: Int) {
+
+            }
+
+            override fun onSearchStateChanged(enabled: Boolean) {
+                if (!enabled) {
+                    recycler_menu.adapter = adapter
+                }
+            }
+
+            override fun onSearchConfirmed(text: CharSequence?) {
+                startSSearch(text)
+            }
+        })
         fab.setOnClickListener { view ->
             startActivity(Intent(this@HomeActivity, CartActivity::class.java))
         }
@@ -113,9 +165,9 @@ class HomeActivity : loginActivity(), NavigationView.OnNavigationItemSelectedLis
         recycler_menu.adapter = adapter
         var user = FirebaseAuth.getInstance().currentUser?.displayName
 
-      requestList= mutableListOf()
+        requestList = mutableListOf()
         //nav menu
-        var mDatabase=FirebaseDatabase.getInstance().reference
+        var mDatabase = FirebaseDatabase.getInstance().reference
 
 /*        mDatabase.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -161,13 +213,37 @@ class HomeActivity : loginActivity(), NavigationView.OnNavigationItemSelectedLis
 
     }
 
+    private fun startSSearch(text: CharSequence?) {
+        searchadapter = object : FirebaseRecyclerAdapter<Food, FoodViewHolder>(
+            Food::class.java,
+            R.layout.food_item,
+            FoodViewHolder::class.java,
+            globalSearchSuggestionBase.orderByChild("Name").equalTo(text.toString())
+        ) {
+            override fun populateViewHolder(viewHolder: FoodViewHolder?, model: Food?, position: Int) {
+                viewHolder!!.foodName.setText(model!!.Name)
+                Picasso.with(baseContext).load(model.Image).into(viewHolder.foodImage)
+                viewHolder.itemView.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(v: View?) {
+
+                        val foodDeatail = Intent(this@HomeActivity, FoodDetailActivity::class.java)
+                        foodDeatail.putExtra("FoodId", searchadapter.getRef(position).key)
+                        startActivity(foodDeatail)
+                    }
+                })
+            }
+        }
+recycler_menu.adapter=searchadapter
+
+    }
+
 
     override fun onResume() {
         var db = DBHelper(this)
         var list = db.readData()
         nav_menu_orders_in_cart_number_text.text = list.size.toString()
         var user = FirebaseAuth.getInstance().currentUser?.displayName.toString()
-         requestList = mutableListOf()
+        requestList = mutableListOf()
         super.onResume()
     }
 
@@ -216,6 +292,20 @@ class HomeActivity : loginActivity(), NavigationView.OnNavigationItemSelectedLis
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun loadSuggest() {
+        globalSearchSuggestionBase.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                for (p in p0.children) {
+                    var item: Food? = p.getValue(Food::class.java)
+                    lastsuggestions.add(item!!.Name.toString())
+                }
+            }
+        })
     }
 
 }
