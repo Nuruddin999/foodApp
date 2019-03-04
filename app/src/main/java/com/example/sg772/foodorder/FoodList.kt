@@ -16,11 +16,11 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.google.firebase.database.*
 import com.mancj.materialsearchbar.MaterialSearchBar
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.app_bar_base_nav_drawer.*
 import kotlinx.android.synthetic.main.app_bar_home.*
 import java.util.ArrayList
 
-class FoodList : AppCompatActivity() {
-    lateinit var fireBaseDatabase: FirebaseDatabase
+class FoodList : BaseNavDrawerActivity() {
     lateinit var database_food: DatabaseReference
     lateinit var recycler_food: RecyclerView
     lateinit var recycler_layoutmanager: RecyclerView.LayoutManager
@@ -33,7 +33,9 @@ class FoodList : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_food_list)
+        layoutInflater.inflate(R.layout.activity_food_list,content)
+       // setContentView(R.layout.activity_food_list)
+
         setTitle("Food")
         fireBaseDatabase = FirebaseDatabase.getInstance()
         database_food = fireBaseDatabase.getReference("Food")

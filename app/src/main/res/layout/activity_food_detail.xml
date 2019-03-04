@@ -10,7 +10,7 @@
     <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
-            android:layout_height="400dp">
+            android:layout_height="400dp" android:weightSum="3">
         <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_food_detail"
                 android:layout_width="match_parent"
@@ -54,7 +54,7 @@
             <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardElevation="5dp"
+                    app:cardElevation="2dp"
                     app:cardUseCompatPadding="true">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                               android:orientation="vertical">
@@ -66,11 +66,11 @@
                               android:layout_width="wrap_content" android:layout_height="wrap_content"/>
                     <LinearLayout android:id="@+id/layout_price"
                                   android:layout_width="match_parent"
-                                  android:layout_height="wrap_content"
+                                  android:layout_height="53dp"
                                   android:orientation="horizontal" android:padding="8dp">
                         <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
+                                android:layout_width="42dp"
+                                android:layout_height="wrap_content"
                                 android:src="@drawable/ic_attach_money_black_24dp" android:layout_weight="1"/>
                         <TextView android:id="@+id/food_price"
 
@@ -85,15 +85,17 @@
                                       android:layout_weight="3">
                             <Button
                                     android:id="@+id/decrement_button"
-                                    android:layout_width="24dp" android:layout_height="match_parent"
+                                    android:layout_width="44dp" android:layout_height="match_parent"
 
                                     android:background="@drawable/ic_indeterminate_check_box_black_24dp"/>
                             <TextView android:id="@+id/food_detail_amoumt"
-                                    android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                      android:text="0"/>
+                                      android:layout_width="50dp" android:layout_height="match_parent"
+                                      android:text="0"
+                                      android:textSize="30sp"
+                                      android:gravity="center"/>
                             <Button
                                     android:id="@+id/increment_button"
-                                    android:layout_width="24dp" android:layout_height="match_parent"
+                                    android:layout_width="44dp" android:layout_height="match_parent"
                                     android:background="@drawable/ic_add_box_black_24dp"/>
                         </LinearLayout>
                     </LinearLayout>

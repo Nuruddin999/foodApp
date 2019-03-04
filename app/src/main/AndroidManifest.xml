@@ -41,19 +41,26 @@
         </activity>
         <activity
                 android:name=".FoodList"
-                android:parentActivityName=".HomeActivity">
+                android:parentActivityName=".HomeActivity"
+        android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".FoodDetailActivity"
-                android:parentActivityName=".FoodList">
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".CartActivity">
+        <activity android:name=".CartActivity"
+        android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".placeOrderActivity"
                 android:label="@string/title_activity_place_order">
         </activity>
         <activity android:name=".RequestsListActivity">
+        </activity>
+        <activity
+                android:name=".BaseNavDrawerActivity"
+                android:label="@string/title_activity_base_nav_drawer"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

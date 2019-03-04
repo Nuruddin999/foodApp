@@ -18,8 +18,9 @@ import com.example.sg772.foodorder.utils.Database
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.app_bar_home.*
 
-class FoodDetailActivity : AppCompatActivity() {
+class FoodDetailActivity : BaseNavDrawerActivity(){
 lateinit var food_data: DatabaseReference
     lateinit var food_name:TextView
     lateinit var food_detail_image: ImageView
@@ -34,7 +35,9 @@ lateinit var food_data: DatabaseReference
     lateinit var currentFood: Food
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_food_detail)
+        layoutInflater.inflate(R.layout.activity_food_detail,content)
+        fab.hide()
+        // setContentView(R.layout.activity_food_detail)
     food_name=findViewById(R.id.food_name_detail)
         food_detail_image=findViewById(R.id.img_food)
         foodPrice=findViewById(R.id.food_price)
@@ -48,6 +51,12 @@ lateinit var food_data: DatabaseReference
         collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapseAppBar)
         var quantity: Int=Integer.parseInt(amount.text.toString())
         val context=this
+        decrButton.setOnClickListener {
+            if (amount.text.equals("0")){
+                amount.text="0"
+            }else{
+            quantity--
+            amount.text=quantity.toString()} }
         incrButton.setOnClickListener { quantity++
         amount.text=quantity.toString()}
 food_data=FirebaseDatabase.getInstance().getReference("Food")

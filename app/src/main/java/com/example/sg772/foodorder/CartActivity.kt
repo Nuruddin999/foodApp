@@ -19,11 +19,13 @@ import com.example.sg772.foodorder.viewHolder.CartAdapter
 
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.activity_food_detail.*
+import kotlinx.android.synthetic.main.app_bar_home.*
 import java.io.Serializable
 import java.lang.System.out
 import java.util.ArrayList
 
-class CartActivity : AppCompatActivity() {
+class CartActivity : BaseNavDrawerActivity() {
     lateinit var recycler_cart: RecyclerView
     lateinit var recycler_layoutmanager: RecyclerView.LayoutManager
     lateinit var database: FirebaseDatabase
@@ -35,7 +37,9 @@ class CartActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_cart)
+        layoutInflater.inflate(R.layout.activity_cart,content)
+fab.hide()
+        //setContentView(R.layout.activity_cart)
         //Firebase
         database= FirebaseDatabase.getInstance()
         request=database.getReference("Request")

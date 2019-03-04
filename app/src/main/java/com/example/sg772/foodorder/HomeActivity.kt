@@ -8,6 +8,8 @@ import android.icu.util.ULocale
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -161,6 +163,7 @@ class HomeActivity : loginActivity(), NavigationView.OnNavigationItemSelectedLis
                 val clickItem: categories = model
                 viewHolder.itemView.setOnClickListener(object : View.OnClickListener {
                     override fun onClick(v: View?) {
+
                         val food = Intent(this@HomeActivity, FoodList::class.java)
                         food.putExtra("categoryId", adapter.getRef(position).key)
                         startActivity(food)
@@ -171,7 +174,7 @@ class HomeActivity : loginActivity(), NavigationView.OnNavigationItemSelectedLis
         recycler_menu.adapter = adapter
         var user = FirebaseAuth.getInstance().currentUser?.displayName
 
-        requestList = mutableListOf()
+
         //nav menu
         var mDatabase = FirebaseDatabase.getInstance().reference
 
