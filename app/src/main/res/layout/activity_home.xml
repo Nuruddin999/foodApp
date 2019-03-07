@@ -20,13 +20,18 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:background="@color/overlayBackground"
-            android:fitsSystemWindows="true"
+            android:fitsSystemWindows="false"
 
     app:itemTextColor="#ffffff"
     app:itemIconTint="#ffffff">
+       <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+       android:orientation="vertical">
+           <ImageView android:layout_width="match_parent" android:layout_height="150dp"
+           android:src="@drawable/neondelivery"
+           android:scaleType="centerCrop"/>
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:orientation="horizontal"
-                      android:layout_marginTop="60dp">
+                      style="@style/nav_menu_items">
             <ImageView android:layout_width="wrap_content" android:layout_height="match_parent"
                        android:src="@drawable/ic_shopping_cart_black2_24dp"
             android:gravity="center_vertical"
@@ -51,11 +56,41 @@
 
           android:gravity="center_vertical"/>
         </LinearLayout>
-        <LinearLayout
+           <LinearLayout
+                   android:id="@+id/nav_menu_orders"
+                   android:layout_width="match_parent" android:layout_height="wrap_content"
+                   android:orientation="horizontal"
+                   style="@style/nav_menu_items"
+                   android:clickable="true">
+               <ImageView android:layout_width="wrap_content" android:layout_height="match_parent"
+                          android:src="@drawable/ic_attach_money_black_24dp"
+                          android:gravity="center_vertical"
+                          android:layout_marginLeft="20dp"/>
+               <TextView
+                       android:id="@+id/nav_menu_requests_text"
+                       android:layout_width="wrap_content" android:layout_height="match_parent"
+                       android:text="orders"
+                       android:textColor="#ffffff"
+                       android:textSize="20sp"
+
+                       android:textAlignment="center"
+                       android:gravity="center_vertical"
+                       android:layout_marginLeft="20dp"/>
+               <TextView
+                       android:id="@+id/requests"
+                       android:layout_width="wrap_content" android:layout_height="match_parent"
+                       android:layout_marginLeft="50dp"
+                       android:background="#b91b1b"
+                       android:textColor="#fff"
+
+
+                       android:gravity="center_vertical"/>
+           </LinearLayout>
+           <LinearLayout
                 android:id="@+id/sign_out"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:orientation="horizontal"
-                      android:layout_marginTop="140dp"
+                     style="@style/nav_menu_items"
         android:clickable="true">
             <ImageView android:layout_width="wrap_content" android:layout_height="match_parent"
                        android:src="@drawable/ic_exit_to_app_black_24dp"
@@ -73,37 +108,8 @@
             android:layout_marginLeft="20dp"/>
 
         </LinearLayout>
-        <LinearLayout
-                android:id="@+id/nav_menu_orders"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:orientation="horizontal"
-                      android:layout_marginTop="100dp"
-        android:clickable="true">
-            <ImageView android:layout_width="wrap_content" android:layout_height="match_parent"
-                       android:src="@drawable/ic_attach_money_black_24dp"
-                       android:gravity="center_vertical"
-                       android:layout_marginLeft="20dp"/>
-            <TextView
-                    android:id="@+id/nav_menu_requests_text"
-                    android:layout_width="wrap_content" android:layout_height="match_parent"
-                    android:text="orders"
-                    android:textColor="#ffffff"
-                    android:textSize="20sp"
 
-                    android:textAlignment="center"
-                    android:gravity="center_vertical"
-                    android:layout_marginLeft="20dp"/>
-            <TextView
-                    android:id="@+id/requests"
-                    android:layout_width="wrap_content" android:layout_height="match_parent"
-                    android:layout_marginLeft="50dp"
-                    android:background="#b91b1b"
-                    android:textColor="#fff"
-
-
-                    android:gravity="center_vertical"/>
-        </LinearLayout>
-
+       </LinearLayout>
             </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>
