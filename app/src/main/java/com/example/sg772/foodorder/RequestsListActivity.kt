@@ -13,12 +13,13 @@ import com.google.android.gms.common.internal.service.Common
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
-class RequestsListActivity : AppCompatActivity() {
+class RequestsListActivity : BaseNavDrawerActivity() {
     lateinit var recyclerView: RecyclerView
     lateinit var linearLayout: RecyclerView.LayoutManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_requests_list)
+        layoutInflater.inflate(R.layout.activity_requests_list,content)
+        title="Your orders"
         recyclerView = findViewById(R.id.recycler_request_list)
         linearLayout = LinearLayoutManager(this)
         recyclerView.layoutManager = linearLayout

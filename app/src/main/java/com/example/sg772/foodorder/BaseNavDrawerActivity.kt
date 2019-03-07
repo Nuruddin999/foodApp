@@ -13,9 +13,11 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toolbar
 import com.example.sg772.foodorder.Model.Request
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -30,6 +32,8 @@ lateinit var content: FrameLayout
     lateinit var nav_menu_orders_in_cart_number_text: TextView
     lateinit var sign_out: LinearLayout
     lateinit var orders: LinearLayout
+    lateinit var cart: LinearLayout
+    lateinit var menubase: LinearLayout
     lateinit var auth: FirebaseAuth
     lateinit var requests: TextView
     lateinit var fireBaseDatabase: FirebaseDatabase
@@ -43,6 +47,7 @@ lateinit var requestDatabase:DatabaseReference
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base_nav_drawer)
 content=findViewById(R.id.baseActivityFrame)
+        setSupportActionBar(toolbar)
         fireBaseDatabase = FirebaseDatabase.getInstance()
         requestDatabase=fireBaseDatabase.getReference("Requests")
         nav_menu_text = findViewById(R.id.nav_menu_text_base)
@@ -50,6 +55,8 @@ content=findViewById(R.id.baseActivityFrame)
         requests = findViewById(R.id.requests_base)
         sign_out = findViewById(R.id.sign_out_base)
         orders = findViewById(R.id.nav_menu_orders_base)
+        cart=findViewById(R.id.cart_base)
+        menubase=findViewById(R.id.menu_menu_base)
 loadOrdersList()
         //display on nav menu number of items in cart once it added in cart
         var mReciever = object : BroadcastReceiver() {
@@ -73,6 +80,12 @@ loadOrdersList()
         )
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
+        menubase.setOnClickListener {  startActivity(Intent(this@BaseNavDrawerActivity, HomeActivity::class.java))}
+        cart.setOnClickListener { startActivity(Intent(this@BaseNavDrawerActivity, CartActivity::class.java)) }
+        orders.setOnClickListener { startActivity(Intent(this@BaseNavDrawerActivity, RequestsListActivity::class.java)) }
+sign_out.setOnClickListener {  auth = FirebaseAuth.getInstance()
+    auth.signOut()
+    startActivity(Intent(this@BaseNavDrawerActivity, MainActivity::class.java)) }
 
     }
     private fun loadOrdersList() {
@@ -100,11 +113,7 @@ loadOrdersList()
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.base_nav_drawer, menu)
-        return true
-    }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will

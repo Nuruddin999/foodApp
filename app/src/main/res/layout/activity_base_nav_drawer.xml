@@ -25,8 +25,38 @@
             app:itemTextColor="#ffffff"
             app:itemIconTint="#ffffff">
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical">
+            <ImageView android:layout_width="match_parent" android:layout_height="150dp"
+                       android:src="@drawable/neondelivery"
+            android:scaleType="centerCrop"/>
+            <LinearLayout
+                    android:id="@+id/menu_menu_base"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal"
+
+                          style="@style/nav_menu_items"
+            android:clickable="true">
+                <ImageView android:layout_width="wrap_content" android:layout_height="match_parent"
+                           android:src="@drawable/ic_restaurant_menu_black_24dp"
+                           android:gravity="center_vertical"
+                           android:layout_marginLeft="20dp"/>
+                <TextView
+                        android:id="@+id/menu_menu_text_base"
+                        android:layout_width="wrap_content" android:layout_height="match_parent"
+                        android:text="menu"
+                        android:textColor="#ffffff"
+                        android:textSize="20sp"
+
+                        android:textAlignment="center"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="20dp"/>
+            </LinearLayout>
+        <LinearLayout
+                android:id="@+id/cart_base"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:orientation="horizontal"
-                      android:layout_marginTop="60dp">
+android:clickable="true"
+        style="@style/nav_menu_items">
             <ImageView android:layout_width="wrap_content" android:layout_height="match_parent"
                        android:src="@drawable/ic_shopping_cart_black_24dp"
                        android:gravity="center_vertical"
@@ -51,33 +81,12 @@
 
                     android:gravity="center_vertical"/>
         </LinearLayout>
-        <LinearLayout
-                android:id="@+id/sign_out_base"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="140dp"
-                android:clickable="true">
-            <ImageView android:layout_width="wrap_content" android:layout_height="match_parent"
-                       android:src="@drawable/ic_exit_to_app_black_24dp"
-                       android:gravity="center_vertical"
-                       android:layout_marginLeft="20dp"/>
-            <TextView
-                    android:id="@+id/nav_menu_log_out"
-                    android:layout_width="wrap_content" android:layout_height="match_parent"
-                    android:text="sign out"
-                    android:textColor="#ffffff"
-                    android:textSize="20sp"
 
-                    android:textAlignment="center"
-                    android:gravity="center_vertical"
-                    android:layout_marginLeft="20dp"/>
-
-        </LinearLayout>
         <LinearLayout
                 android:id="@+id/nav_menu_orders_base"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="100dp"
+                style="@style/nav_menu_items"
                 android:clickable="true">
             <ImageView android:layout_width="wrap_content" android:layout_height="match_parent"
                        android:src="@drawable/ic_attach_money_black_24dp"
@@ -103,7 +112,29 @@
 
                     android:gravity="center_vertical"/>
         </LinearLayout>
+            <LinearLayout
+                    android:id="@+id/sign_out_base"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    style="@style/nav_menu_items"
+                    android:clickable="true">
+                <ImageView android:layout_width="wrap_content" android:layout_height="match_parent"
+                           android:src="@drawable/ic_exit_to_app_black_24dp"
+                           android:gravity="center_vertical"
+                           android:layout_marginLeft="20dp"/>
+                <TextView
+                        android:id="@+id/nav_menu_log_out"
+                        android:layout_width="wrap_content" android:layout_height="match_parent"
+                        android:text="sign out"
+                        android:textColor="#ffffff"
+                        android:textSize="20sp"
 
+                        android:textAlignment="center"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="20dp"/>
+
+            </LinearLayout>
+        </LinearLayout>
     </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

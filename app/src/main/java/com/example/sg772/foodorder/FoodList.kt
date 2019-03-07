@@ -55,7 +55,7 @@ class FoodList : BaseNavDrawerActivity() {
 searchBar=findViewById(R.id.foodlist_searchbar)
         searchBar.setHint("Enter food")
         loadSuggest()
-     //   searchBar.lastSuggestions=suggestList
+      searchBar.lastSuggestions=suggestList
         searchBar.setCardViewElevation(10)
         searchBar.addTextChangeListener(object : TextWatcher{
             override fun afterTextChanged(s: Editable?) {

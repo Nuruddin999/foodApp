@@ -55,7 +55,8 @@
                 android:name=".placeOrderActivity"
                 android:label="@string/title_activity_place_order">
         </activity>
-        <activity android:name=".RequestsListActivity">
+        <activity android:name=".RequestsListActivity"
+        android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".BaseNavDrawerActivity"
