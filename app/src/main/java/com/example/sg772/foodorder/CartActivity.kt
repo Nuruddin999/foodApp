@@ -44,7 +44,7 @@ fab.hide()
         database= FirebaseDatabase.getInstance()
         request=database.getReference("Request")
         //Init
-
+title="Your cart"
         recycler_cart=findViewById(R.id.recycler_cart)
         recycler_layoutmanager=LinearLayoutManager(this)
 total_money=findViewById(R.id.total_money)

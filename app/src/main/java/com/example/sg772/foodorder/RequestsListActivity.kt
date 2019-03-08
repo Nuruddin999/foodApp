@@ -35,7 +35,7 @@ class RequestsListActivity : BaseNavDrawerActivity() {
         ) {
             override fun populateViewHolder(viewHolder: RequestListClass?, model: Request?, position: Int) {
                 viewHolder!!.reqName.setText(model!!.Name)
-                viewHolder!!.reqId.setText(getRef(position).key.toString())
+                viewHolder!!.reqId.setText("Id: "+getRef(position).key.toString())
                 viewHolder!!.reqAddress.setText(model!!.Address)
                 viewHolder!!.reqStatus.setText(converToCodeStatus(model.Status))
 

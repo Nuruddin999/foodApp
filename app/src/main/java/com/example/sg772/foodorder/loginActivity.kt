@@ -77,6 +77,7 @@ open class loginActivity : AppCompatActivity() {
             mProgressDialog?.setCancelable(false)
         }
         mProgressDialog?.show()
+
     }
 
     private fun createUser(name: String, email: String, password: String, phone: String) {

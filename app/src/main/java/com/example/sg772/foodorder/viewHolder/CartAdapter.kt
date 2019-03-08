@@ -33,8 +33,8 @@ return  list.size
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
 val order:Order=list[p1]
         p0.productName.text=order.ProductName
-        p0.productQuantity.text=order.Quantity
-        p0.productPrice.text=order.Price
+        p0.productQuantity.text=order.Quantity+" "+"portions"
+        p0.productPrice.text=order.Price+" "+"usd"
 p0.deleteButtom.setOnClickListener {
     var removedTotal: Int=(Integer.parseInt(order.Price)) * (Integer.parseInt(order.Quantity))
     var intent= Intent("com.example.sg772.foodorder.RemovedNumber")

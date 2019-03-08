@@ -28,36 +28,46 @@ class FoodList : BaseNavDrawerActivity() {
     lateinit var adapter: FirebaseRecyclerAdapter<Food, FoodViewHolder>
     lateinit var searchadapter: FirebaseRecyclerAdapter<Food, FoodViewHolder>
     lateinit var searchBar: MaterialSearchBar
-    lateinit var suggestList:ArrayList<String>
+    lateinit var suggestList: ArrayList<String>
 
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        layoutInflater.inflate(R.layout.activity_food_list,content)
-       // setContentView(R.layout.activity_food_list)
+        layoutInflater.inflate(R.layout.activity_food_list, content)
+        // setContentView(R.layout.activity_food_list)
+        if (intent != null) {
+            categoryId = intent.getStringExtra("categoryId")
 
-        setTitle("Food")
+        }
+        when (categoryId) {
+            "01" -> {
+                title = "Soups"
+            }
+            "02" -> {
+                title = "Shaurma"
+            }
+            "03" -> {
+                title = "Pizza"
+            }
+        }
         fireBaseDatabase = FirebaseDatabase.getInstance()
         database_food = fireBaseDatabase.getReference("Food")
         recycler_food = findViewById(R.id.recycler_food)
         recycler_layoutmanager = LinearLayoutManager(this)
         recycler_food.layoutManager = recycler_layoutmanager
-        if (intent != null) {
-            categoryId = intent.getStringExtra("categoryId")
-        }
+
         if (!categoryId.isEmpty() && categoryId != null) {
             loadListFood(categoryId)
         } else {
             finish()
         }
         //search
-        suggestList=ArrayList<String>()
-searchBar=findViewById(R.id.foodlist_searchbar)
+        suggestList = ArrayList<String>()
+        searchBar = findViewById(R.id.foodlist_searchbar)
         searchBar.setHint("Enter food")
         loadSuggest()
-      searchBar.lastSuggestions=suggestList
+        searchBar.lastSuggestions = suggestList
         searchBar.setCardViewElevation(10)
-        searchBar.addTextChangeListener(object : TextWatcher{
+        searchBar.addTextChangeListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
             }
 
@@ -65,24 +75,24 @@ searchBar=findViewById(R.id.foodlist_searchbar)
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-var suggest=ArrayList<String>()
-                for (sug in suggestList){
-    if (sug.toLowerCase().contains(searchBar.text.toLowerCase())){
-suggest.add(sug)
+                var suggest = ArrayList<String>()
+                for (sug in suggestList) {
+                    if (sug.toLowerCase().contains(searchBar.text.toLowerCase())) {
+                        suggest.add(sug)
+                    }
                 }
-                }
-                searchBar.lastSuggestions=suggest
+                searchBar.lastSuggestions = suggest
             }
         })
-        searchBar.setOnSearchActionListener(object : MaterialSearchBar.OnSearchActionListener{
+        searchBar.setOnSearchActionListener(object : MaterialSearchBar.OnSearchActionListener {
             override fun onButtonClicked(buttonCode: Int) {
 
             }
 
             override fun onSearchStateChanged(enabled: Boolean) {
 //When searchBar is closed , restore original adapter
-                if (!enabled){
-                    recycler_food.adapter=adapter
+                if (!enabled) {
+                    recycler_food.adapter = adapter
                 }
             }
 
@@ -94,43 +104,44 @@ suggest.add(sug)
     }
 
     private fun startSSearch(text: CharSequence?) {
-   searchadapter=object : FirebaseRecyclerAdapter<Food, FoodViewHolder>
-(
-    Food::class.java,
-    R.layout.food_item,
-    FoodViewHolder::class.java,
-    database_food.orderByChild("Name").equalTo(text.toString())
-){
-     override fun populateViewHolder(viewHolder: FoodViewHolder?, model: Food?, position: Int) {
-         viewHolder!!.foodName.setText(model!!.Name)
-         Picasso.with(baseContext).load(model.Image).into(viewHolder.foodImage)
-         viewHolder.itemView.setOnClickListener(object : View.OnClickListener {
-             override fun onClick(v: View?) {
+        searchadapter = object : FirebaseRecyclerAdapter<Food, FoodViewHolder>
+            (
+            Food::class.java,
+            R.layout.food_item,
+            FoodViewHolder::class.java,
+            database_food.orderByChild("Name").equalTo(text.toString())
+        ) {
+            override fun populateViewHolder(viewHolder: FoodViewHolder?, model: Food?, position: Int) {
+                viewHolder!!.foodName.setText(model!!.Name)
+                Picasso.with(baseContext).load(model.Image).into(viewHolder.foodImage)
+                viewHolder.itemView.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(v: View?) {
 
-                 val foodDeatail = Intent(this@FoodList, FoodDetailActivity::class.java)
-                 foodDeatail.putExtra("FoodId", searchadapter.getRef(position).key)
-                 startActivity(foodDeatail)
-             }
-         })
-     }
+                        val foodDeatail = Intent(this@FoodList, FoodDetailActivity::class.java)
+                        foodDeatail.putExtra("FoodId", searchadapter.getRef(position).key)
+                        startActivity(foodDeatail)
+                    }
+                })
+            }
 
 
- }
-recycler_food.adapter=searchadapter
+        }
+        recycler_food.adapter = searchadapter
     }
 
     private fun loadSuggest() {
-database_food.orderByChild("MenuId").equalTo(categoryId.toString()).addValueEventListener(object : ValueEventListener{
-    override fun onCancelled(p0: DatabaseError) {
-    }
+        database_food.orderByChild("MenuId").equalTo(categoryId.toString())
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                }
 
-    override fun onDataChange(p0: DataSnapshot) {
-for (p in p0.children){
-    var item: Food? =p.getValue(Food::class.java)
-suggestList.add(item!!.Name.toString())
-}
-    }
-})
+                override fun onDataChange(p0: DataSnapshot) {
+                    for (p in p0.children) {
+                        var item: Food? = p.getValue(Food::class.java)
+                        suggestList.add(item!!.Name.toString())
+                    }
+                }
+            })
     }
 
     override fun onResume() {
@@ -141,12 +152,11 @@ suggestList.add(item!!.Name.toString())
     }
 
     private fun loadListFood(categoryId: String) {
-     adapter = object : FirebaseRecyclerAdapter<Food, FoodViewHolder>(
+        adapter = object : FirebaseRecyclerAdapter<Food, FoodViewHolder>(
             Food::class.java, R.layout.food_item,
             FoodViewHolder::class.java,
             database_food.orderByChild("MenuId").equalTo(categoryId.toString())
-        )
-        {
+        ) {
             override fun populateViewHolder(viewHolder: FoodViewHolder?, model: Food?, position: Int) {
                 viewHolder!!.foodName.setText(model!!.Name)
                 Picasso.with(baseContext).load(model.Image).into(viewHolder.foodImage)
