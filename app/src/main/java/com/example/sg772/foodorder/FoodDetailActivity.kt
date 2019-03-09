@@ -96,7 +96,6 @@ food_data.child(foodID).addValueEventListener(object :ValueEventListener{
     override fun onDataChange(p0: DataSnapshot) {
 currentFood= p0.getValue(Food::class.java)!!
         Picasso.with(baseContext).load(currentFood?.Image).into(food_detail_image)
-        collapsingToolbarLayout.title=currentFood?.Name
         foodPrice.text=currentFood?.Price.toString()
         food_name.text=currentFood?.Name
         descr.text=currentFood?.Description

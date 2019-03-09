@@ -12,6 +12,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.google.android.gms.common.internal.service.Common
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.app_bar_base_nav_drawer.*
 
 class RequestsListActivity : BaseNavDrawerActivity() {
     lateinit var recyclerView: RecyclerView
@@ -19,6 +20,7 @@ class RequestsListActivity : BaseNavDrawerActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         layoutInflater.inflate(R.layout.activity_requests_list,content)
+        fab.hide()
         title="Your orders"
         recyclerView = findViewById(R.id.recycler_request_list)
         linearLayout = LinearLayoutManager(this)

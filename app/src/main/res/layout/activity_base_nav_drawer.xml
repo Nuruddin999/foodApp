@@ -27,7 +27,7 @@
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
         android:orientation="vertical">
             <ImageView android:layout_width="match_parent" android:layout_height="150dp"
-                       android:src="@drawable/neondelivery"
+                       android:src="@drawable/foodologo"
             android:scaleType="centerCrop"/>
             <LinearLayout
                     android:id="@+id/menu_menu_base"
@@ -58,7 +58,7 @@
 android:clickable="true"
         style="@style/nav_menu_items">
             <ImageView android:layout_width="wrap_content" android:layout_height="match_parent"
-                       android:src="@drawable/ic_shopping_cart_black_24dp"
+                       android:src="@drawable/ic_shopping_cart_black2_24dp"
                        android:gravity="center_vertical"
                        android:layout_marginLeft="20dp"/>
             <TextView
@@ -89,7 +89,7 @@ android:clickable="true"
                 style="@style/nav_menu_items"
                 android:clickable="true">
             <ImageView android:layout_width="wrap_content" android:layout_height="match_parent"
-                       android:src="@drawable/ic_attach_money_black_24dp"
+                       android:src="@drawable/ic_attach_money_black2_24dp"
                        android:gravity="center_vertical"
                        android:layout_marginLeft="20dp"/>
             <TextView

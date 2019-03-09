@@ -34,6 +34,7 @@ class CartActivity : BaseNavDrawerActivity() {
     lateinit var place_order_button: Button
     lateinit var cartList:ArrayList<Order>
     lateinit var cartAdapter: CartAdapter
+     var total=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +60,7 @@ total_money=findViewById(R.id.total_money)
         cartAdapter=CartAdapter(cartList,this)
         recycler_cart.adapter=cartAdapter
         cartAdapter.notifyDataSetChanged()
-        var total: Int=0
+         total=0
         if (cartList.size==0){
             total_money.text="0"
         }   else {
@@ -76,7 +77,7 @@ total_money=findViewById(R.id.total_money)
 
                     var total=Integer.parseInt(total_money.text.toString())- numbers!!
                     if (total<0){
-                        total_money.text="0";
+                        total_money.text="0"
                     }
                     else {
                         total_money.text = total.toString()
@@ -93,6 +94,7 @@ total_money=findViewById(R.id.total_money)
         place_order_button.setOnClickListener {
 
            var intent=Intent(this, placeOrderActivity::class.java)
+            intent.putExtra("total",Integer.parseInt(total_money.text.toString()))
 startActivity(intent)
         }
     }

@@ -40,6 +40,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.paypal.android.sdk.payments.*
 
 import kotlinx.android.synthetic.main.activity_place_order.*
+import kotlinx.android.synthetic.main.app_bar_base_nav_drawer.*
 import org.json.JSONException
 import java.io.Serializable
 import java.math.BigDecimal
@@ -47,7 +48,7 @@ import java.math.BigDecimal
 /**
  * A login screen that offers login via email/password.
  */
-class placeOrderActivity : AppCompatActivity() {
+class placeOrderActivity : BaseNavDrawerActivity() {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -59,24 +60,31 @@ class placeOrderActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
     lateinit var layoutManager: LinearLayoutManager
     lateinit var orderedFoodAdapter: RequestAdapter
+    lateinit var total: TextView
     lateinit var makeOrder: Button
+
     companion object {
-        val PAYPAL_REQUEST_CODE: Int=9999
-        var paypalConfig=PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_SANDBOX).clientId(com.example.sg772.foodorder.utils.paypalConfig.clientId)
+        val PAYPAL_REQUEST_CODE: Int = 9999
+        var paypalConfig = PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
+            .clientId(com.example.sg772.foodorder.utils.paypalConfig.clientId)
     }
-    lateinit var address: String
-    lateinit var comment: String
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_place_order)
+        layoutInflater.inflate(R.layout.activity_place_order, content)
+        fab.hide()
+        title = "Checkout"
+        // setContentView(R.layout.activity_place_order)
         // init
         //paypal
         var intent = Intent(this, PayPalService::class.java)
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, paypalConfig)
         startService(intent)
         //
+        total = findViewById(R.id.total_money_plae_order)
         Name = findViewById(R.id.place_order_name)
         Phone = findViewById(R.id.place_order_phone)
         Address = findViewById(R.id.place_order_address)
@@ -84,11 +92,10 @@ class placeOrderActivity : AppCompatActivity() {
         //recycler view
         var db = DBHelper(this)
         listOrdered = db.readData()
-        var totalPrice: Int = 0
-        for (l in listOrdered) {
-            totalPrice += Integer.parseInt(l.Price)
-        }
+        var intentFromCart=getIntent()
+        var totalPrice=intentFromCart.getIntExtra("total",0)
 
+        total.text = totalPrice.toString()
         recyclerView = findViewById(R.id.place_order_recycler_view)
         layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
@@ -110,12 +117,13 @@ class placeOrderActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode== PAYPAL_REQUEST_CODE){
-            if (resultCode==RESULT_OK){
-                var paymentConfirmation:PaymentConfirmation= data!!.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION)
-                if (paymentConfirmation != null){
+        if (requestCode == PAYPAL_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                var paymentConfirmation: PaymentConfirmation =
+                    data!!.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION)
+                if (paymentConfirmation != null) {
                     try {
-                        var paymentDetail:String=paymentConfirmation.toJSONObject().toString(4)
+                        var paymentDetail: String = paymentConfirmation.toJSONObject().toString(4)
 
                         val request = Request(
                             Name = Name.text.toString(),
@@ -126,9 +134,9 @@ class placeOrderActivity : AppCompatActivity() {
                         )
                         var mDatabase = FirebaseDatabase.getInstance().reference
                         mDatabase.child("Requests").child(System.currentTimeMillis().toString()).setValue(request)
-                        object : DBHelper(baseContext){}.deleteAll()
-                        Toast.makeText(this,"Thanks ! Your order is made ! ", Toast.LENGTH_LONG).show()
-                    } catch (e: JSONException){
+                        object : DBHelper(baseContext) {}.deleteAll()
+                        Toast.makeText(this, "Thanks ! Your order is made ! ", Toast.LENGTH_LONG).show()
+                    } catch (e: JSONException) {
                         e.printStackTrace()
                         error("Something wrong")
                     }
@@ -136,12 +144,11 @@ class placeOrderActivity : AppCompatActivity() {
                 }
             }
 
-        }
-        else if (requestCode==Activity.RESULT_CANCELED)
-            Toast.makeText(this,"Payment cancel ", Toast.LENGTH_LONG).show()
-        else if (requestCode==PaymentActivity.RESULT_EXTRAS_INVALID)
-            Toast.makeText(this,"Invalid Payment", Toast.LENGTH_LONG).show()
-       // super.onActivityResult(requestCode, resultCode, data)
+        } else if (requestCode == Activity.RESULT_CANCELED)
+            Toast.makeText(this, "Payment cancel ", Toast.LENGTH_LONG).show()
+        else if (requestCode == PaymentActivity.RESULT_EXTRAS_INVALID)
+            Toast.makeText(this, "Invalid Payment", Toast.LENGTH_LONG).show()
+        // super.onActivityResult(requestCode, resultCode, data)
     }
 
 

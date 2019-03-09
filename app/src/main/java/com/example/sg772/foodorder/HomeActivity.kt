@@ -59,6 +59,7 @@ class HomeActivity : loginActivity(), NavigationView.OnNavigationItemSelectedLis
     lateinit var nav_menu_orders_in_cart_number_text: TextView
     lateinit var sign_out: LinearLayout
     lateinit var orders: LinearLayout
+    lateinit var cart: LinearLayout
     lateinit var auth: FirebaseAuth
     lateinit var requests: TextView
     lateinit var requestList: MutableList<Request>
@@ -133,7 +134,7 @@ class HomeActivity : loginActivity(), NavigationView.OnNavigationItemSelectedLis
         recycler_menu = findViewById(R.id.recycler_menu)
         sign_out = findViewById(R.id.sign_out)
         orders = findViewById(R.id.nav_menu_orders)
-
+cart=findViewById(R.id.cart_home)
         nav_view.setNavigationItemSelectedListener(this)
         var mReciever = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -220,6 +221,10 @@ class HomeActivity : loginActivity(), NavigationView.OnNavigationItemSelectedLis
         orders.setOnClickListener {
 
             startActivity(Intent(this@HomeActivity, RequestsListActivity::class.java))
+        }
+        cart.setOnClickListener {
+            startActivity(Intent(this@HomeActivity, CartActivity::class.java))
+
         }
 //display number of orders
         ordersList=ArrayList<String>()

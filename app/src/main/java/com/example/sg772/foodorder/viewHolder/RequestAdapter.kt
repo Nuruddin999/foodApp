@@ -24,12 +24,17 @@ class RequestAdapter(val list: ArrayList<Order>):RecyclerView.Adapter<RequestAda
         val requestOrder: Order =list[p1]
         p0.reqName.text=requestOrder.ProductName
         p0.reqQuantity.text=requestOrder.Quantity
+        p0.reqPieces.text=" pieces"
         p0.reqPrice.text=requestOrder.Price
+        p0.reqUsd.text=" usd"
     }
 
     class Viewholder(itemView: View): RecyclerView.ViewHolder(itemView) {
+
         val reqName=itemView.findViewById(R.id.place_order_foodName) as TextView
         val reqQuantity=itemView.findViewById(R.id.place_order_foodQuantity) as TextView
+        val reqPieces=itemView.findViewById(R.id.place_order_foodQuantity_pcs) as TextView
         val reqPrice=itemView.findViewById(R.id.place_order_foodPrice) as TextView
+        val reqUsd=itemView.findViewById(R.id.place_order_foodPrice_usd) as TextView
     }
 }
