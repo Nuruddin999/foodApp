@@ -7,6 +7,7 @@ class Request {
     var Phone: String? = null
     var Address: String? = null
     var Status: String?=null
+   // var PaymentState: String?=null
     var Dishes: List<Order>?=null
 
 
@@ -19,15 +20,16 @@ class Request {
         Name: String?,
         Phone: String?,
         Address: String?,
+        Status: String?,
+        //PaymentState: String?,
         Dishes: List<Order>?
-
     ) {
         this.Name = Name
         this.Phone = Phone
         this.Address = Address
-        this.Dishes=Dishes
-        this.Status="0"
-
+        this.Status=Status
+       // this.PaymentState = PaymentState
+        this.Dishes = Dishes
     }
 
 

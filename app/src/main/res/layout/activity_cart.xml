@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         tools:context=".CartActivity"
 
-        android:background="@drawable/neondelivery"
+        android:background="#23262d"
 >
     <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_cart"
@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
                                         android:layout_height="100dp"
     android:layout_alignParentBottom="true"
-    app:cardBackgroundColor="#1abbd1">
+    app:cardBackgroundColor="#FF353A45">
         <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:layout_margin="5dp" android:layout_alignEnd="@+id/card_view_below_cart_recycler">
             <LinearLayout

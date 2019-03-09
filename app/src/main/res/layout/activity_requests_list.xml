@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".RequestsListActivity" android:orientation="vertical"
-android:background="@drawable/neondelivery">
+android:background="#23262d">
     <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_request_list"
             android:layout_width="match_parent"

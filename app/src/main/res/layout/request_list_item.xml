@@ -4,7 +4,7 @@
                                     android:layout_height="wrap_content"
                                     xmlns:app="http://schemas.android.com/apk/res-auto"
                                     app:cardBackgroundColor="#ffffff"
-                                    android:layout_margin="10dp">
+                                    android:layout_margin="20dp">
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                   android:orientation="vertical" android:paddingTop="12dp"
     android:paddingHorizontal="22dp">
