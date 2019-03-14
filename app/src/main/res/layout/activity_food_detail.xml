@@ -120,12 +120,27 @@
             </android.support.v7.widget.CardView>
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                           android:orientation="vertical">
-                <RatingBar
-                        android:id="@+id/ratingbar"
-                        android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:max="5"
-                android:isIndicator="true"
-                />
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                    <RatingBar
+                            android:id="@+id/ratingbar"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:max="5"
+                            android:isIndicator="true"
+                            android:clickable="true"
+                   android:focusable="false" />
+                    <Button
+                            android:id="@+id/sellallfeedbackbutton"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="see all feedbacks"
+                    android:textSize="20sp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/colorPrimary"
+                    android:textColor="@color/white"
+                    android:layout_marginHorizontal="10dp"
+                    />
+                </LinearLayout>
+
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                               android:orientation="vertical">
                     <TextView

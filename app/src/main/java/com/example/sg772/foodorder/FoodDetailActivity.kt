@@ -38,6 +38,7 @@ lateinit var food_data: DatabaseReference
     lateinit var currentFood: Food
     lateinit var ratingBar: RatingBar
     lateinit var cancelDialog: Button
+    lateinit var seeAllFeedback: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         layoutInflater.inflate(R.layout.activity_food_detail,content)
@@ -53,7 +54,7 @@ lateinit var food_data: DatabaseReference
         cartButton=findViewById(R.id.btn_cart)
         ratingButton=findViewById(R.id.btn_rating)
         ratingBar=findViewById(R.id.ratingbar)
-
+seeAllFeedback=findViewById(R.id.sellallfeedbackbutton)
         collapsingToolbarLayout=findViewById(R.id.collapsing_food_detail)
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAdapter)
         collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapseAppBar)
@@ -102,6 +103,12 @@ if (intent != null){
         ratingButton.setOnClickListener {
             showRatingDialog()
         }
+
+       seeAllFeedback.setOnClickListener {val ratingList = Intent(this@FoodDetailActivity, ratingListActivity::class.java)
+           ratingList.putExtra("foodid",foodID)
+           ratingList.putExtra("foodName",food_name.text.toString())
+           ratingList.putExtra("rating",ratingBar.rating)
+            startActivity(ratingList)  }
     }
 
     private fun getFoodRating(IDfood: String) {
@@ -147,7 +154,7 @@ ratingDialog.setNegativeButton("Cancel",{ dialogInterface: DialogInterface, i: I
     var RatingValue=ratingDialogBar.rating
     var Comments=ratingFeedback.text.toString()
 
-    var rating=Rating(RatingValue.toString(), Comments )
+    var rating=Rating(auth.currentUser?.displayName.toString(),RatingValue.toString(), Comments )
 ratingReference.child(foodID).child(auth.currentUser?.displayName.toString()).addListenerForSingleValueEvent(object :ValueEventListener{
     override fun onCancelled(p0: DatabaseError) {
 
