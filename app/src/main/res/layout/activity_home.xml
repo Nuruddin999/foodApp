@@ -26,9 +26,15 @@
     app:itemIconTint="#ffffff">
        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
        android:orientation="vertical">
-           <ImageView android:layout_width="match_parent" android:layout_height="150dp"
+           <ImageView android:layout_width="match_parent" android:layout_height="200dp"
            android:src="@drawable/foodologo"
            android:scaleType="centerCrop"/>
+           <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+           android:id="@+id/user_name"
+           android:background="#372b53"
+           android:textColor="@color/white"
+           android:textSize="20sp"
+           android:textAlignment="center"/>
         <LinearLayout
                 android:id="@+id/cart_home"
                 android:layout_width="match_parent" android:layout_height="wrap_content"

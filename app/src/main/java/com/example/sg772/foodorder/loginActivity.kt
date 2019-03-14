@@ -37,7 +37,7 @@ open class loginActivity : AppCompatActivity() {
                 showprogressDialog()
                 if (pas.text.toString().contentEquals(confpass.text.toString())) {
                     createUser(nam.text.toString(), ema.text.toString(), pas.text.toString(), pho.text.toString())
-                    writeUser(nam.text.toString(), ema.text.toString(), pho?.text.toString())
+
                 } else {
                     hideProgressDialog()
                     Toast.makeText(this, "no", Toast.LENGTH_LONG).show()
@@ -91,12 +91,13 @@ open class loginActivity : AppCompatActivity() {
                         .setDisplayName(name)
                         .build()
                     user!!.updateProfile(profileUpdate)
+                    writeUser(name,email,phone)
                     hideProgressDialog()
                 } else {
                     Log.d("warning", task.exception?.message)
                     Toast.makeText(
-                        baseContext, "Authentication failed.",
-                        Toast.LENGTH_SHORT
+                        baseContext, "Authentication failed: "+task.exception?.message.toString(),
+                        Toast.LENGTH_LONG
                     ).show()
                     hideProgressDialog()
                 }

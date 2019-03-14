@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+android:orientation="vertical"
+android:paddingHorizontal="2dp">
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:textSize="15sp"
+              android:text="Please select stars and give  your feedback"
+              android:layout_gravity="center_horizontal"
+              android:textColor="@color/colorPrimary"
+              android:layout_marginTop="10dp"/>
+    <RatingBar
+            android:id="@+id/ratingDialogBar"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+               android:rating="0"
+    android:max="5"
+            android:stepSize="1"
+    android:layout_marginTop="12dp"
+    android:layout_gravity="center_horizontal"/>
+    <EditText
+            android:id="@+id/ratingFeedback"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+
+    android:layout_margin="24dp"
+              android:inputType="textMultiLine"
+              android:gravity="start"
+              android:lines="10"
+
+    android:background="@drawable/dialogbackground"/>
+
+</LinearLayout>

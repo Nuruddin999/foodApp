@@ -65,6 +65,7 @@ class HomeActivity : loginActivity(), NavigationView.OnNavigationItemSelectedLis
     lateinit var requestList: MutableList<Request>
     lateinit var global_search: MaterialSearchBar
     lateinit var lastsuggestions: ArrayList<String>
+    lateinit var userName: TextView
     lateinit var ordersList:ArrayList<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -129,13 +130,16 @@ class HomeActivity : loginActivity(), NavigationView.OnNavigationItemSelectedLis
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
         nav_menu_text = findViewById(R.id.nav_menu_text)
+        userName=findViewById(R.id.user_name)
         nav_menu_orders_in_cart_number_text = findViewById(R.id.orders_in_cart)
         requests = findViewById(R.id.requests)
         recycler_menu = findViewById(R.id.recycler_menu)
         sign_out = findViewById(R.id.sign_out)
         orders = findViewById(R.id.nav_menu_orders)
 cart=findViewById(R.id.cart_home)
-        nav_view.setNavigationItemSelectedListener(this)
+        auth= FirebaseAuth.getInstance()
+        userName.text= auth.currentUser?.displayName
+        nav_view.setNavigationItemSelectedListener(this )
         var mReciever = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 var numbers = intent?.getIntExtra("num", -1)
@@ -236,7 +240,7 @@ cart=findViewById(R.id.cart_home)
     }
 
     private fun loadOrdersList() {
-        requestDatabase.addValueEventListener(object : ValueEventListener{
+        requestDatabase.orderByChild("name").equalTo(userName.text.toString()).addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
             }
 
@@ -250,7 +254,7 @@ count++
                 }
             }
         })
-        requests.text=ordersList.size.toString()
+
     }
 
     private fun startSSearch(text: CharSequence?) {
@@ -281,7 +285,10 @@ recycler_menu.adapter=searchadapter
     override fun onResume() {
         var db = DBHelper(this)
         var list = db.readData()
-        nav_menu_orders_in_cart_number_text.text = list.size.toString()
+        if (list.size==0){
+            nav_menu_orders_in_cart_number_text.text=""
+        } else { nav_menu_orders_in_cart_number_text.text = list.size.toString()}
+
         var user = FirebaseAuth.getInstance().currentUser?.displayName.toString()
         requestList = mutableListOf()
         super.onResume()

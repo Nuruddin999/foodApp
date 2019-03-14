@@ -39,6 +39,7 @@ class CartActivity : BaseNavDrawerActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         layoutInflater.inflate(R.layout.activity_cart,content)
+
 fab.hide()
         //setContentView(R.layout.activity_cart)
         //Firebase

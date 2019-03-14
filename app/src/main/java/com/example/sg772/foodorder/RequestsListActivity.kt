@@ -6,12 +6,16 @@ import android.os.Bundle
 import android.support.v7.widget.FitWindowsLinearLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import com.example.sg772.foodorder.Model.Order
 import com.example.sg772.foodorder.Model.Request
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.google.android.gms.common.internal.service.Common
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.app_bar_base_nav_drawer.*
 
 class RequestsListActivity : BaseNavDrawerActivity() {
@@ -45,6 +49,7 @@ class RequestsListActivity : BaseNavDrawerActivity() {
 
         }
         recyclerView.adapter = adapter
+
     }
 
     private fun converToCodeStatus(status: String?): String {
