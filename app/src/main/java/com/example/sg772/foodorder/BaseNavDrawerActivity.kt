@@ -1,9 +1,11 @@
 package com.example.sg772.foodorder
 
+import android.annotation.TargetApi
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
@@ -45,6 +47,7 @@ open class BaseNavDrawerActivity : AppCompatActivity(), NavigationView.OnNavigat
     lateinit var lastsuggestions: ArrayList<String>
     lateinit var ordersList: ArrayList<String>
     lateinit var userName: TextView
+    @TargetApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base_nav_drawer)
@@ -88,7 +91,9 @@ open class BaseNavDrawerActivity : AppCompatActivity(), NavigationView.OnNavigat
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
         menubase.setOnClickListener { startActivity(Intent(this@BaseNavDrawerActivity, HomeActivity::class.java)) }
-        cart.setOnClickListener { startActivity(Intent(this@BaseNavDrawerActivity, CartActivity::class.java)) }
+        cart.setOnClickListener {
+            cart.setBackgroundResource(R.color.primary_material_light)
+            startActivity(Intent(this@BaseNavDrawerActivity, CartActivity::class.java)) }
         orders.setOnClickListener {
             startActivity(
                 Intent(

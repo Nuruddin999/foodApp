@@ -14,6 +14,7 @@ import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
@@ -154,8 +155,9 @@ cart=findViewById(R.id.cart_home)
 
         //  user_name_header.setText(commonActivity.commonUser.username)
         //Load menu
-        recycler_layoutmanager = LinearLayoutManager(this)
-        recycler_menu.layoutManager = recycler_layoutmanager
+       /* recycler_layoutmanager = LinearLayoutManager(this)
+        recycler_menu.layoutManager = recycler_layoutmanager*/
+       recycler_menu.layoutManager=GridLayoutManager(this, 2)
         adapter = object : FirebaseRecyclerAdapter<categories, menuViewHolder>(
             categories::class.java,
             R.layout.menu_item,
