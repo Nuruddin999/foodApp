@@ -22,11 +22,7 @@ open class loginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_layout)
-        val actionBar = supportActionBar
-        if (actionBar != null) {
-            actionBar.setDisplayShowCustomEnabled(true)
-            actionBar.title = ""
-            actionBar?.setDisplayHomeAsUpEnabled(true)
+
             var nam: EditText = findViewById(R.id.name)
             var ema: EditText = findViewById(R.id.email)
             var pho: EditText = findViewById(R.id.phone)
@@ -43,7 +39,7 @@ open class loginActivity : AppCompatActivity() {
                     Toast.makeText(this, "no", Toast.LENGTH_LONG).show()
                 }
             }
-        }
+
     }
 
     private fun writeUser(name: String, email: String, phone: String) {

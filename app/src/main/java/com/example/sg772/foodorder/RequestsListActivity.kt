@@ -43,7 +43,7 @@ class RequestsListActivity : BaseNavDrawerActivity() {
                 viewHolder!!.reqName.setText(model!!.Name)
                 viewHolder!!.reqId.setText("Id: "+getRef(position).key.toString())
                 viewHolder!!.reqAddress.setText(model!!.Address)
-                viewHolder!!.reqStatus.setText(converToCodeStatus(model.Status))
+                viewHolder!!.reqStatus.setText(converToCodeStatus(model.Status.toString()))
 
             }
 

@@ -23,10 +23,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.AdapterView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.example.sg772.foodorder.Interface.itemClickListen
 import com.example.sg772.foodorder.Model.Food
 import com.example.sg772.foodorder.Model.Order
@@ -68,6 +65,8 @@ class HomeActivity : loginActivity(), NavigationView.OnNavigationItemSelectedLis
     lateinit var lastsuggestions: ArrayList<String>
     lateinit var userName: TextView
     lateinit var ordersList:ArrayList<String>
+    lateinit var viewFlipper: ViewFlipper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -79,6 +78,32 @@ class HomeActivity : loginActivity(), NavigationView.OnNavigationItemSelectedLis
         //global search
         global_search = findViewById(R.id.global_search_home_activity)
         lastsuggestions = ArrayList<String>()
+        //view Flipper
+
+        viewFlipper=findViewById(R.id.v_flipper)
+        var imageView1=ImageView(this)
+        var imageView2=ImageView(this)
+        var imageView3=ImageView(this)
+        imageView2.scaleType=ImageView.ScaleType.FIT_XY
+        imageView1.scaleType=ImageView.ScaleType.FIT_XY
+        imageView3.scaleType=ImageView.ScaleType.FIT_XY
+        Picasso.with(this).load("https://cdn.pixabay.com/photo/2015/03/26/09/39/cupcakes-690040__340.jpg").into(imageView1)
+        Picasso.with(this).load("https://cdn.pixabay.com/photo/2014/07/08/12/34/pizza-386717__340.jpg").into(imageView2)
+        Picasso.with(this).load("https://cdn.pixabay.com/photo/2013/10/16/22/34/bread-196511__340.jpg").into(imageView3)
+        viewFlipper.addView(imageView1)
+        viewFlipper.addView(imageView2)
+        viewFlipper.addView(imageView3)
+        viewFlipper.setFlipInterval(3500)
+
+
+        viewFlipper.isAutoStart=true
+        viewFlipper.setInAnimation(this,android.R.anim.slide_in_left)
+        viewFlipper.setOutAnimation(this,android.R.anim.slide_out_right)
+
+       Log.d("slider", viewFlipper.childCount.toString())
+
+
+
         loadSuggest()
         global_search.lastSuggestions = lastsuggestions
         global_search.addTextChangeListener(object : TextWatcher {

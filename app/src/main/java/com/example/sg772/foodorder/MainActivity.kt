@@ -56,7 +56,6 @@ class MainActivity : loginActivity() {
         showprogressDialog()
 
         auth = FirebaseAuth.getInstance()
-
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {

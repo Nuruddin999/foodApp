@@ -5,6 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="overlayBackground">#7f333639</color>
     <color name="overlayActionbar">#0e0d0e</color>
-
+<color name="active_dot">#72c42b</color>
+    <color name="inactive_dot">#91968e</color>
 
 </resources>

@@ -43,10 +43,13 @@ class FoodList : BaseNavDrawerActivity() {
                 title = "Soups"
             }
             "02" -> {
-                title = "Shaurma"
+                title = "Salads"
             }
             "03" -> {
-                title = "Pizza"
+                title = "Sushi"
+            }
+            "04" -> {
+                title = "Coffee"
             }
         }
         fireBaseDatabase = FirebaseDatabase.getInstance()

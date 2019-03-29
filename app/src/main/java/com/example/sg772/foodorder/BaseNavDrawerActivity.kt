@@ -92,7 +92,7 @@ open class BaseNavDrawerActivity : AppCompatActivity(), NavigationView.OnNavigat
         toggle.syncState()
         menubase.setOnClickListener { startActivity(Intent(this@BaseNavDrawerActivity, HomeActivity::class.java)) }
         cart.setOnClickListener {
-            cart.setBackgroundResource(R.color.primary_material_light)
+            
             startActivity(Intent(this@BaseNavDrawerActivity, CartActivity::class.java)) }
         orders.setOnClickListener {
             startActivity(

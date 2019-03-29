@@ -89,6 +89,7 @@ class placeOrderActivity : BaseNavDrawerActivity() {
         Phone = findViewById(R.id.place_order_phone)
         Address = findViewById(R.id.place_order_address)
         makeOrder = findViewById(R.id.make_order_button)
+
         //recycler view
         var db = DBHelper(this)
         listOrdered = db.readData()
@@ -103,6 +104,8 @@ class placeOrderActivity : BaseNavDrawerActivity() {
         recyclerView.adapter = orderedFoodAdapter
         var user: String? = FirebaseAuth.getInstance().currentUser?.displayName
         Name.text = user
+        var phone:String?=FirebaseAuth.getInstance().currentUser?.phoneNumber
+        Phone.text= phone
 //place order
 
 
@@ -124,12 +127,12 @@ class placeOrderActivity : BaseNavDrawerActivity() {
                 if (paymentConfirmation != null) {
                     try {
                         var paymentDetail: String = paymentConfirmation.toJSONObject().toString(4)
-
+                        var status:String="1"
                         val request = Request(
                             Name = Name.text.toString(),
                             Phone = Phone.text.toString(),
                             Address = Address.text.toString(),
-                            Status = "Accepted",
+                           Status =  status,
                             Dishes = listOrdered
                         )
                         var mDatabase = FirebaseDatabase.getInstance().reference
