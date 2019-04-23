@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
 import com.example.sg772.foodorder.Model.Order
 import com.google.firebase.auth.FirebaseAuth
-import com.readystatesoftware.sqliteasset.SQLiteAssetHelper
 import java.util.ArrayList
 
 val DB_NAME = "Order"
