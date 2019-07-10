@@ -16,18 +16,14 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-        android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+        <activity
+                android:name=".MainActivity"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".loginActivity"
                 android:parentActivityName=".MainActivity"
-        android:theme="@style/AppTheme.NoActionBar">
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".log_inActivity"
@@ -67,8 +63,18 @@
                 android:label="@string/title_activity_base_nav_drawer"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".ratingListActivity"
-        android:theme="@style/AppTheme.NoActionBar">
+        <activity
+                android:name=".ratingListActivity"
+                android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".newVer.auth.userauth.authActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".newVer.auth.mainMenu.mainPage">
         </activity>
     </application>
 
