@@ -3,10 +3,9 @@ package com.example.sg772.foodorder.newVer.auth.order
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,11 +13,16 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import com.example.sg772.foodorder.Model.Order
+import com.example.sg772.foodorder.Model.Request
 import com.example.sg772.foodorder.R
 import com.example.sg772.foodorder.placeOrderActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.paypal.android.sdk.payments.PayPalConfiguration
 import com.paypal.android.sdk.payments.PayPalService
+import java.util.ArrayList
 
 class orderDialogFragment:DialogFragment() {
     lateinit var alertDialog: AlertDialog.Builder
@@ -30,6 +34,9 @@ lateinit var orderDialogVIew:View
     lateinit var total:TextView
     lateinit var buyButton:Button
     lateinit var cancelButton:Button
+    var foodname=""
+    var quantity=""
+    var orderslist=ArrayList<Order>()
     lateinit var orders:DatabaseReference
     var totalam=0
     companion object {
@@ -43,7 +50,13 @@ lateinit var orderDialogVIew:View
         var intent = Intent(context, PayPalService::class.java)
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, placeOrderActivity.paypalConfig)
 activity?.startService(intent)
+        quantity=arguments?.getString("quantity")!!
+foodname= arguments?.getString("foodname")!!
      totalam= arguments?.getInt("total")!!
+        var user=FirebaseAuth.getInstance().currentUser?.email
+        Log.d("USER",user)
+        var order=Order(user,foodname,quantity,totalam.toString(),null)
+orderslist.add(order)
     }
     override fun onStart() {
         super.onStart()
@@ -71,8 +84,22 @@ name_field=orderDialogVIew.findViewById(R.id.place_order_name)
         buyButton=orderDialogVIew.findViewById(R.id.orderdialog_positive)
         cancelButton=orderDialogVIew.findViewById(R.id.orderdialog_negative)
 total.setText("$totalam  USD")
-
+buyButton.setOnClickListener {
+    Log.d("click","buy")
+    buy(name_field.text.toString(),phone_field.text.toString(),address_field.text.toString(),orderslist)
+}
         return alertDialog.create()
 
+    }
+
+    private fun buy(
+        name: String,
+        phone: String,
+        address: String,
+        orderslist: ArrayList<Order>
+    ) {
+val request=Request(name,phone,address,"01",orderslist)
+        var mDatabase = FirebaseDatabase.getInstance().reference
+        mDatabase.child("Requests").child(System.currentTimeMillis().toString()).setValue(request)
     }
 }

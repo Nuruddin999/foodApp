@@ -70,9 +70,12 @@ class singleFoodFragment : Fragment() {
         }
 makeOrder.setOnClickListener {
     var totalAmout=Integer.parseInt(foodPrice.text.toString())*Integer.parseInt(amount.text.toString())
-    Log.d("TOTAL",totalAmout.toString())
+
     var bundle=Bundle()
     bundle.putInt("total",totalAmout)
+    bundle.putString("foodname",food_name.text.toString())
+    bundle.putString("quantity",amount.text.toString())
+    Log.d("TOTAL","${totalAmout.toString()}, ${amount.text.toString()} , ${food_name.text.toString()} ")
     var orderDialogFragment=orderDialogFragment()
     orderDialogFragment.arguments=bundle
 
