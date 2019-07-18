@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.DialogFragment
 import android.util.Log
 import android.view.LayoutInflater
@@ -85,6 +86,11 @@ name_field=orderDialogVIew.findViewById(R.id.place_order_name)
         cancelButton=orderDialogVIew.findViewById(R.id.orderdialog_negative)
 total.setText("$totalam  USD")
 buyButton.setOnClickListener {
+    if(name_field.text.isNullOrEmpty()|| phone_field.text.isNullOrEmpty() || address_field.text.isNullOrEmpty() ){
+        var snackbar=Snackbar.make(orderDialogVIew,"fill empty fields",Snackbar.LENGTH_SHORT)
+        snackbar.show()
+        return@setOnClickListener
+    }
     Log.d("click","buy")
     buy(name_field.text.toString(),phone_field.text.toString(),address_field.text.toString(),orderslist)
 }
