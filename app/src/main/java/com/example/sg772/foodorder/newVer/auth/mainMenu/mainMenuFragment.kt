@@ -78,6 +78,7 @@ lateinit var recyclerViewCategoris: RecyclerView
                         var fm=fragmentManager
                         var frtrans=fm?.beginTransaction()
                         frtrans?.replace(R.id.foodlistFragmentContainer,foofdListFragment)
+                        frtrans?.addToBackStack(null)
                         frtrans?.commit()
                     }
                 })

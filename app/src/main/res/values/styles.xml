@@ -26,4 +26,11 @@
     <style name="nav_menu_items">
         <item name="android:paddingVertical">12dp</item>
     </style>
+    <style name="order_dialog_fields" parent="android:Widget.EditText">
+     <item name="android:backgroundTint">@android:color/white</item>
+       <item name="android:textColorHint">@android:color/white</item>
+
+
+
+    </style>
 </resources>

@@ -44,7 +44,8 @@ class foofdListFragment : Fragment() {
     lateinit var adapter: FirebaseRecyclerAdapter<Food, FoodViewHolder>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        categoryId = arguments?.getString("categoryID")
+        if (arguments!=null){
+        categoryId = arguments?.getString("categoryID")}
     }
 
     override fun onCreateView(
@@ -58,6 +59,7 @@ class foofdListFragment : Fragment() {
         recycler_layoutmanager = LinearLayoutManager(context)
         recyclerViewFoodList = View.findViewById(R.id.singleCategoryList)
         recyclerViewFoodList.layoutManager = recycler_layoutmanager
+
         if (categoryId != null) {
             loadListFood(categoryId!!)
         } else {
@@ -67,6 +69,7 @@ class foofdListFragment : Fragment() {
     }
 
     private fun loadListFood(categoryId: String) {
+
         adapter = object : FirebaseRecyclerAdapter<Food, FoodViewHolder>(
             Food::class.java, R.layout.food_item,
             FoodViewHolder::class.java,
@@ -74,9 +77,20 @@ class foofdListFragment : Fragment() {
         ) {
             override fun populateViewHolder(viewHolder: FoodViewHolder?, model: Food?, position: Int) {
                 viewHolder!!.foodName.setText(model!!.Name)
+                viewHolder.foodRating.rating=model.averagerating.toFloat()
                 Picasso.with(context).load(model.Image).into(viewHolder.foodImage)
                 viewHolder.itemView.setOnClickListener(object : View.OnClickListener {
                     override fun onClick(v: View?) {
+                        var bundle=Bundle()
+                        bundle.putString("foodID",adapter.getRef(position).key)
+                        var singleFoodFragment=singleFoodFragment()
+                       singleFoodFragment.arguments=bundle
+
+                        var fm=fragmentManager
+                        var frtrans=fm?.beginTransaction()
+                        frtrans?.replace(R.id.fragment_content,singleFoodFragment)
+                        frtrans?.addToBackStack("tag")
+                        frtrans?.commit()
 
                     }
                 })

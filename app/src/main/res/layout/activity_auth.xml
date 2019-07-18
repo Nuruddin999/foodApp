@@ -15,15 +15,23 @@
             android:orientation="vertical"
 
             android:layout_margin="14dp"
-    >
+   android:weightSum="2" >
         <EditText
-                android:id="@+id/auth_phone_field" android:layout_width="match_parent" android:layout_height="0dp"
-                android:inputType="phone"
-                android:hint="phone"
+                android:id="@+id/auth_email_field" android:layout_width="match_parent" android:layout_height="0dp"
+                android:hint="email"
                 android:layout_weight="1"
                 android:background="@drawable/auth_activity_fields"
                 android:padding="17dp"
                 android:textColor="@color/colorPrimary"/>
+        <EditText
+                android:id="@+id/auth_passw_field" android:layout_width="match_parent" android:layout_height="0dp"
+                android:inputType="textPassword"
+                android:hint="passsword"
+                android:layout_weight="1"
+                android:background="@drawable/auth_activity_fields"
+                android:padding="17dp"
+                android:textColor="@color/colorPrimary"
+        android:layout_marginTop="10dp"/>
         <LinearLayout
                 android:id="@+id/codeblock"
                 android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical"

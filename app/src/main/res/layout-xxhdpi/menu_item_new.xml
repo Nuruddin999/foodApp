@@ -4,7 +4,7 @@
                                     android:layout_height="wrap_content"
                                     xmlns:android="http://schemas.android.com/apk/res/android"
                                     xmlns:app="http://schemas.android.com/apk/res-auto"
-                                    app:cardCornerRadius="4dp"
+                                    app:cardCornerRadius="8dp"
 app:cardBackgroundColor="@color/colorPrimary"
 android:layout_marginTop="2dp"
 android:layout_marginLeft="8dp"
@@ -16,18 +16,17 @@ android:layout_marginBottom="4dp">
                   android:background="@drawable/menu_item_back">
         <ImageView
                 android:id="@+id/menuImage"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_width="@dimen/food_category_icon_width_xxhdpi" android:layout_height="@dimen/food_category_icon_height_xxhdpi"
                 />
-
-
+    
     </LinearLayout>
+
     <TextView
             android:id="@+id/menu_name"
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:text="dish"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:layout_gravity="bottom"
             android:gravity="center"
             android:textColor="@android:color/white"/>
-
 </android.support.v7.widget.CardView>

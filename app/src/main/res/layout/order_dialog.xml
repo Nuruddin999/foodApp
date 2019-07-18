@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+
+              android:background="@drawable/dialog_order_back"
+
+
+android:layout_margin="44dp"
+android:padding="12dp">
+<EditText
+        android:id="@+id/place_order_name"
+
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+android:hint="Name"
+style="@style/order_dialog_fields"
+
+/>
+    <EditText
+            android:id="@+id/place_order_phone"
+
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:hint="Phone"
+            style="@style/order_dialog_fields"
+
+    />
+    <EditText
+            android:id="@+id/place_order_address"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:hint="Address"
+
+              android:textSize="20sp"
+            style="@style/order_dialog_fields"
+
+    />
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="Total"
+                  android:textSize="20sp"
+                  android:textStyle="bold"
+      android:textColor="@color/white"  />
+        <TextView
+
+ android:id="@+id/total_order_dialog"               android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="0.0"
+                  android:textSize="20sp"
+                  android:textStyle="bold"
+        android:layout_marginLeft="20sp"
+        android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal"
+
+                  android:weightSum="2"
+
+   android:layout_margin="12dp">
+        <Button
+                android:text="buy" android:id="@+id/orderdialog_positive"
+                android:layout_width="0dp"
+                                                                    android:background="@drawable/order_dialog_buy_button_back"                      android:layout_weight="1" android:layout_height="wrap_content"
+        android:layout_marginRight="12dp"/>
+        <Button
+                android:id="@+id/orderdialog_negative"
+                android:layout_width="0dp"
+                android:layout_weight="1" android:layout_height="wrap_content"
+                android:text="cancel"
+        android:layout_marginLeft="12dp"/>
+    </LinearLayout>
+</LinearLayout>

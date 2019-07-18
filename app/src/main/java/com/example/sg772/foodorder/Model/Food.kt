@@ -6,6 +6,7 @@ class Food{
     var MenuId: String? = null
     var Name: String? = null
     var Price: Long? = null
+    var averagerating=0.0
     constructor(){
 
     }

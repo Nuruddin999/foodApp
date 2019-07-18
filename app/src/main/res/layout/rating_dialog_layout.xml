@@ -28,6 +28,6 @@ android:paddingHorizontal="2dp">
               android:gravity="start"
               android:lines="10"
 
-    android:background="@drawable/dialogbackground"/>
+    android:background="@drawable/auth_activity_fields"/>
 
 </LinearLayout>
