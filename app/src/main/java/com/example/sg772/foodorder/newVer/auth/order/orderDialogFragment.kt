@@ -7,13 +7,11 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.DialogFragment
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import com.example.sg772.foodorder.Model.Order
 import com.example.sg772.foodorder.Model.Request
 import com.example.sg772.foodorder.R
@@ -106,6 +104,16 @@ buyButton.setOnClickListener {
     ) {
 val request=Request(name,phone,address,"01",orderslist)
         var mDatabase = FirebaseDatabase.getInstance().reference
-        mDatabase.child("Requests").child(System.currentTimeMillis().toString()).setValue(request)
+        mDatabase.child("Requests").child(System.currentTimeMillis().toString()).setValue(request).addOnCompleteListener { task -> if(task.isSuccessful){
+            dismiss()
+            val infl=layoutInflater
+            val toastLayout=infl.inflate(R.layout.successorderpopup,null)
+            with(Toast(context)){
+                setGravity(Gravity.CENTER,0,0)
+                duration= Toast.LENGTH_SHORT
+                view=toastLayout
+                show()
+            }
+        }  }
     }
 }
