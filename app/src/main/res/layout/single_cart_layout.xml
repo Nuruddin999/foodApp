@@ -3,7 +3,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     xmlns:app="http://schemas.android.com/apk/res-auto"
-                                    app:cardBackgroundColor="#573e8f"
+                                    app:cardBackgroundColor="@color/colorPrimary"
                                     android:layout_margin="10dp"
 app:cardCornerRadius="7dp">
 
@@ -23,20 +23,20 @@ app:cardCornerRadius="7dp">
                           android:orientation="horizontal" android:padding="12dp">
                 <TextView android:id="@+id/cart_price"
                           android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:textColor="#fff"
+                          android:text="price" android:textColor="#fff"
                           android:textSize="20sp"
                 />
                 <TextView android:id="@+id/cart_quantity"
                           android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:textSize="20sp"
-                          android:textColor="#fff"
+                          android:text="quantity" android:textColor="#fff"
                           android:layout_marginLeft="23dp"/>
             </LinearLayout>
         </LinearLayout>
         <Button
                 android:id="@+id/delete_cart_button"
                 android:layout_width="40dp" android:layout_height="40dp"
-                android:background="@drawable/deletebutton"
+                android:background="@drawable/ic_delete_black_24dp"
         android:layout_gravity="center_vertical"
         android:layout_marginRight="32dp"/>
 

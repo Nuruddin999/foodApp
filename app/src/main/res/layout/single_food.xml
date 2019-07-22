@@ -100,7 +100,7 @@ android:clickable="true"
                 android:layout_toRightOf="@id/add_tofavorite_button"
                 android:layout_toLeftOf="@id/add_tocart_button"/>
         <ImageView
-                android:id="@+id/add_tocart_button"
+                android:clickable="true" android:id="@+id/add_tocart_button"
                 android:layout_weight="1"
                 android:layout_width="0dp" android:layout_height="wrap_content"
                 android:src="@drawable/ic_add_shopping_cart_black_24dp"

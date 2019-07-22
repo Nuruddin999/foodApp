@@ -12,10 +12,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.example.sg772.foodorder.Interface.successPurchase
 import com.example.sg772.foodorder.Model.Order
 import com.example.sg772.foodorder.Model.Request
 import com.example.sg772.foodorder.R
 import com.example.sg772.foodorder.placeOrderActivity
+import com.example.sg772.foodorder.utils.DBHelper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -37,6 +39,7 @@ lateinit var orderDialogVIew:View
     var quantity=""
     var orderslist=ArrayList<Order>()
     lateinit var orders:DatabaseReference
+     var succeslistener: successPurchase?=null
     var totalam=0
     companion object {
         val PAYPAL_REQUEST_CODE: Int = 9999
@@ -56,6 +59,7 @@ foodname= arguments?.getString("foodname")!!
         Log.d("USER",user)
         var order=Order(user,foodname,quantity,totalam.toString(),null)
 orderslist.add(order)
+
     }
     override fun onStart() {
         super.onStart()
@@ -106,6 +110,7 @@ val request=Request(name,phone,address,"01",orderslist)
         var mDatabase = FirebaseDatabase.getInstance().reference
         mDatabase.child("Requests").child(System.currentTimeMillis().toString()).setValue(request).addOnCompleteListener { task -> if(task.isSuccessful){
             dismiss()
+
             val infl=layoutInflater
             val toastLayout=infl.inflate(R.layout.successorderpopup,null)
             with(Toast(context)){
@@ -114,6 +119,11 @@ val request=Request(name,phone,address,"01",orderslist)
                 view=toastLayout
                 show()
             }
+
+            if (succeslistener!=null){
+                succeslistener?.confirm()
+            }
+
         }  }
     }
 }
