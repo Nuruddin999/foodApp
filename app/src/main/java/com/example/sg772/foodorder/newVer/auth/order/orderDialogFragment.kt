@@ -12,12 +12,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import com.example.sg772.foodorder.Interface.successPurchase
+import com.example.sg772.foodorder.newVer.auth.Cart.successPurchase
 import com.example.sg772.foodorder.Model.Order
 import com.example.sg772.foodorder.Model.Request
 import com.example.sg772.foodorder.R
 import com.example.sg772.foodorder.placeOrderActivity
-import com.example.sg772.foodorder.utils.DBHelper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase

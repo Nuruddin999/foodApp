@@ -10,20 +10,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import com.example.sg772.foodorder.Interface.successPurchase
 import com.example.sg772.foodorder.Model.Order
 import com.example.sg772.foodorder.R
 import com.example.sg772.foodorder.newVer.auth.order.orderDialogFragment
 import com.example.sg772.foodorder.utils.DBHelper
-import com.example.sg772.foodorder.viewHolder.CartAdapter
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.util.ArrayList
 
-class cartFragment : Fragment(), successPurchase {
+class cartFragment : Fragment(), successPurchase, cartAdapterListener {
+    override fun makeChangeInText(removed: Int, removed_quantity: Int) {
+        total=total-removed
+        total_quantity=total_quantity-removed_quantity
+        total_money.setText("Total:  ${total} USD ${total_quantity} pieces")
+
+    }
+
     override fun confirm() {
         cartList.removeAll(cartList)
         total_money.setText("")
+        place_order_button.visibility=Button.GONE
     }
 
     lateinit var recycler_cart: RecyclerView
@@ -48,13 +54,20 @@ class cartFragment : Fragment(), successPurchase {
         place_order_button = View.findViewById(R.id.place_order)
         var db = DBHelper(context!!)
         cartList = db.readData()
-        cartAdapter = CartAdapter(cartList, context!!)
+        cartAdapter = CartAdapter(
+            cartList,
+            context!!,
+            total_money,
+            place_order_button,
+            this
+        )
         recycler_cart.adapter = cartAdapter
         cartAdapter.notifyDataSetChanged()
-        total = 0
         if (cartList.size == 0) {
-            total_money.text = "0"
+            total_money.text = "cart is empty"
+            place_order_button.visibility=Button.GONE
         } else {
+            place_order_button.visibility=Button.VISIBLE
             for (order: Order in cartList) {
                 total += (Integer.parseInt(order.Price)) * (Integer.parseInt(order.Quantity))
                 total_quantity+=Integer.parseInt(order.Quantity)

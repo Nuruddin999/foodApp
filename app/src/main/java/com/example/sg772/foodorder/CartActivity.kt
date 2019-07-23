@@ -4,9 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcelable
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -14,18 +12,19 @@ import android.widget.Button
 import android.widget.TextView
 import com.example.sg772.foodorder.Model.Order
 import com.example.sg772.foodorder.utils.DBHelper
-import com.example.sg772.foodorder.utils.Database
-import com.example.sg772.foodorder.viewHolder.CartAdapter
+import com.example.sg772.foodorder.newVer.auth.Cart.CartAdapter
+import com.example.sg772.foodorder.newVer.auth.Cart.cartAdapterListener
 
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.activity_food_detail.*
 import kotlinx.android.synthetic.main.app_bar_home.*
-import java.io.Serializable
-import java.lang.System.out
 import java.util.ArrayList
 
-class CartActivity : BaseNavDrawerActivity() {
+class CartActivity : BaseNavDrawerActivity(), cartAdapterListener {
+    override fun makeChangeInText(removed: Int, removed_quantity: Int) {
+
+    }
+
     lateinit var recycler_cart: RecyclerView
     lateinit var recycler_layoutmanager: RecyclerView.LayoutManager
     lateinit var database: FirebaseDatabase
@@ -58,7 +57,8 @@ total_money=findViewById(R.id.total_money)
 
         var db=DBHelper(this)
         cartList=db.readData()
-        cartAdapter=CartAdapter(cartList,this)
+        cartAdapter=
+            CartAdapter(cartList, this, total_money, place_order_button,this)
         recycler_cart.adapter=cartAdapter
         cartAdapter.notifyDataSetChanged()
          total=0
