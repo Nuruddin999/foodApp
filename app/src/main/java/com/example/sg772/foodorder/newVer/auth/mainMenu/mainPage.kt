@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.util.Log
 import com.example.sg772.foodorder.R
 import com.example.sg772.foodorder.newVer.auth.Cart.cartFragment
+import com.example.sg772.foodorder.newVer.auth.Requests.requestsFragment
 import kotlinx.android.synthetic.main.activity_main_page.*
 
 class mainPage : AppCompatActivity() {
@@ -24,6 +25,10 @@ main_menu_fragment.setOnClickListener {
             Log.d("CART","CLICKED")
             var cartFragment= cartFragment()
            loadHomeFragment(cartFragment)
+        }
+        main_menu_request.setOnClickListener {
+            var requestsFragment=requestsFragment()
+            loadHomeFragment(requestsFragment)
         }
     }
 

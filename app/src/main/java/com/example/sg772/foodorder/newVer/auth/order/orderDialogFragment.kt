@@ -18,6 +18,7 @@ import com.example.sg772.foodorder.Model.Request
 import com.example.sg772.foodorder.R
 import com.example.sg772.foodorder.placeOrderActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.paypal.android.sdk.payments.PayPalConfiguration
@@ -34,6 +35,7 @@ lateinit var orderDialogVIew:View
     lateinit var total:TextView
     lateinit var buyButton:Button
     lateinit var cancelButton:Button
+    lateinit var user: FirebaseUser
     var foodname=""
     var quantity=""
     var orderslist=ArrayList<Order>()
@@ -54,9 +56,9 @@ activity?.startService(intent)
         quantity=arguments?.getString("quantity")!!
 foodname= arguments?.getString("foodname")!!
      totalam= arguments?.getInt("total")!!
-        var user=FirebaseAuth.getInstance().currentUser?.email
-        Log.d("USER",user)
-        var order=Order(user,foodname,quantity,totalam.toString(),null)
+         user=FirebaseAuth.getInstance().currentUser!!
+        Log.d("USER",user.email)
+        var order=Order(user.email,foodname,quantity,totalam.toString(),null)
 orderslist.add(order)
 
     }
@@ -85,6 +87,7 @@ name_field=orderDialogVIew.findViewById(R.id.place_order_name)
         total=orderDialogVIew.findViewById(R.id.total_order_dialog)
         buyButton=orderDialogVIew.findViewById(R.id.orderdialog_positive)
         cancelButton=orderDialogVIew.findViewById(R.id.orderdialog_negative)
+        name_field.setText(user.email)
 total.setText("$totalam  USD")
 buyButton.setOnClickListener {
     if(name_field.text.isNullOrEmpty()|| phone_field.text.isNullOrEmpty() || address_field.text.isNullOrEmpty() ){
