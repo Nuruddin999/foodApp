@@ -1,18 +1,13 @@
 package com.example.sg772.foodorder.newVer.auth.mainMenu
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.sg772.foodorder.FoodList
-import com.example.sg772.foodorder.Model.categories
+import com.example.sg772.foodorder.newVer.auth.mainMenu.Model.categories
 
 import com.example.sg772.foodorder.R
 import com.example.sg772.foodorder.viewHolder.menuViewHolder

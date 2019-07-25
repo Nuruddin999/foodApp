@@ -1,20 +1,15 @@
 package com.example.sg772 .foodorder
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.widget.RatingBar
 import android.widget.TextView
-import com.example.sg772.foodorder.Model.Rating
-import com.example.sg772.foodorder.Model.categories
+import com.example.sg772.foodorder.newVer.auth.mainMenu.Model.Rating
 import com.example.sg772.foodorder.viewHolder.RatingViewHolder
-import com.example.sg772.foodorder.viewHolder.menuViewHolder
 import com.firebase.ui.database.FirebaseRecyclerAdapter
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 
 class ratingListActivity :BaseNavDrawerActivity() {
     lateinit var ratingDatabase: DatabaseReference

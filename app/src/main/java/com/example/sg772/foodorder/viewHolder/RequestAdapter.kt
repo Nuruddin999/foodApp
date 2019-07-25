@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.sg772.foodorder.Model.Order
-import com.example.sg772.foodorder.Model.Request
 import com.example.sg772.foodorder.R
 import java.util.ArrayList
 

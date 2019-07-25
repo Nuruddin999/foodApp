@@ -10,9 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.example.sg772.foodorder.Model.Food
-import com.example.sg772.foodorder.Model.Request
-import com.example.sg772.foodorder.Model.categories
+import com.example.sg772.foodorder.newVer.auth.mainMenu.Model.Food
+import com.example.sg772.foodorder.newVer.auth.Requests.Request
+import com.example.sg772.foodorder.newVer.auth.mainMenu.Model.categories
 
 import com.example.sg772.foodorder.R
 import com.example.sg772.foodorder.viewHolder.FoodViewHolder

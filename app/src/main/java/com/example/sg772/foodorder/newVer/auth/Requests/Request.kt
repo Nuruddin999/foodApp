@@ -1,6 +1,6 @@
-package com.example.sg772.foodorder.Model
+package com.example.sg772.foodorder.newVer.auth.Requests
 
-import java.util.ArrayList
+import com.example.sg772.foodorder.Model.Order
 
 class Request {
     var Name: String? = null

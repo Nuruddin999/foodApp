@@ -1,28 +1,24 @@
 package com.example.sg772.foodorder.newVer.auth.mainMenu
 
 import android.app.AlertDialog
-import android.app.Dialog
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
-import android.support.v4.content.LocalBroadcastManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.example.sg772.foodorder.Model.Food
+import com.example.sg772.foodorder.newVer.auth.mainMenu.Model.Food
 import com.example.sg772.foodorder.Model.Order
-import com.example.sg772.foodorder.Model.Rating
+import com.example.sg772.foodorder.newVer.auth.mainMenu.Model.Rating
 import com.example.sg772.foodorder.R
 import com.example.sg772.foodorder.newVer.auth.order.orderDialogFragment
 import com.example.sg772.foodorder.utils.DBHelper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.single_food.*
 
 class singleFoodFragment : Fragment() {
     lateinit var ratingReference: DatabaseReference
@@ -94,7 +90,7 @@ makeOrder.setOnClickListener {
             } else {
                 val user = FirebaseAuth.getInstance().currentUser!!.email
                 var oder =
-                    Order(user, food_name.text.toString(), amount.text.toString(), foodPrice.text.toString(), null)
+                    Order(null, food_name.text.toString(), amount.text.toString(), foodPrice.text.toString(), null)
                 var db = DBHelper(context!!)
                 db.insertData(oder)
                 var list = db.readData()
@@ -186,7 +182,11 @@ makeOrder.setOnClickListener {
             var RatingValue = ratingDialogBar.rating
             var Comments = ratingFeedback.text.toString()
 
-            var rating = Rating(auth.currentUser?.displayName.toString(), RatingValue.toString(), Comments)
+            var rating = Rating(
+                auth.currentUser?.displayName.toString(),
+                RatingValue.toString(),
+                Comments
+            )
             ratingReference.child(foodID).child(auth.currentUser?.displayName.toString())
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onCancelled(p0: DatabaseError) {

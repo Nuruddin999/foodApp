@@ -14,7 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.sg772.foodorder.newVer.auth.Cart.successPurchase
 import com.example.sg772.foodorder.Model.Order
-import com.example.sg772.foodorder.Model.Request
+import com.example.sg772.foodorder.newVer.auth.Requests.Request
 import com.example.sg772.foodorder.R
 import com.example.sg772.foodorder.placeOrderActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -108,7 +108,7 @@ buyButton.setOnClickListener {
         address: String,
         orderslist: ArrayList<Order>
     ) {
-val request=Request(name,phone,address,"01",orderslist)
+val request= Request(name, phone, address, "01", orderslist)
         var mDatabase = FirebaseDatabase.getInstance().reference
         mDatabase.child("Requests").child(System.currentTimeMillis().toString()).setValue(request).addOnCompleteListener { task -> if(task.isSuccessful){
             dismiss()

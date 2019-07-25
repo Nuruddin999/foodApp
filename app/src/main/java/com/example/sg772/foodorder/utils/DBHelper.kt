@@ -17,6 +17,8 @@ val COL_PRODUCTNAME = "ProductName"
 val COL_PRODUCTQUANTITY = "Quantity"
 val COL_PRODUCTPRICE = "Price"
 val COL_PRODUCTDISCOUNT = "Discount"
+val SESS_NAME="currentsession"
+val USER_PHONE="phone"
 
 open class DBHelper(var context: Context) :
     SQLiteOpenHelper(context, DB_NAME, null, 1) {
@@ -30,7 +32,10 @@ open class DBHelper(var context: Context) :
                 COL_PRODUCTPRICE + " VARCHAR (300)," +
                 COL_PRODUCTDISCOUNT + " VARCHAR (300)"+
                 ")"
+
         db?.execSQL(createTAble)
+
+
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -54,7 +59,8 @@ open class DBHelper(var context: Context) :
         var list=ArrayList<Order>()
         val db=this.writableDatabase
 val usr: String? = FirebaseAuth.getInstance().currentUser!!.email
-val query="select * from "+ TABLE_NAME+" where "+ COL_USER+"="+"'"+usr+"'"
+val query="select * from "+ TABLE_NAME
+//+" where "+ COL_USER+"="+"'"+usr+"'"
         val result=db.rawQuery(query, null)
         if (result.moveToFirst()){
             do {
@@ -83,4 +89,5 @@ val query="select * from "+ TABLE_NAME+" where "+ COL_USER+"="+"'"+usr+"'"
         db.execSQL(query)
 
     }
+
     }

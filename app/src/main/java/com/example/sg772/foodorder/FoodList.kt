@@ -1,23 +1,18 @@
 package com.example.sg772.foodorder
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.Toast
-import com.example.sg772.foodorder.Interface.itemClickListen
-import com.example.sg772.foodorder.Model.Food
+import com.example.sg772.foodorder.newVer.auth.mainMenu.Model.Food
 import com.example.sg772.foodorder.viewHolder.FoodViewHolder
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.google.firebase.database.*
 import com.mancj.materialsearchbar.MaterialSearchBar
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.app_bar_base_nav_drawer.*
-import kotlinx.android.synthetic.main.app_bar_home.*
 import java.util.ArrayList
 
 class FoodList : BaseNavDrawerActivity() {

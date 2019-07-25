@@ -1,28 +1,9 @@
 package com.example.sg772.foodorder
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.annotation.TargetApi
-import android.content.pm.PackageManager
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
-import android.app.LoaderManager.LoaderCallbacks
-import android.content.CursorLoader
-import android.content.Loader
-import android.database.Cursor
-import android.net.Uri
-import android.os.AsyncTask
-import android.os.Build
 import android.os.Bundle
-import android.provider.ContactsContract
-import android.text.TextUtils
-import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.widget.ArrayAdapter
 import android.widget.TextView
 
 import java.util.ArrayList
-import android.Manifest.permission.READ_CONTACTS
 import android.app.Activity
 import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
@@ -30,19 +11,15 @@ import android.support.v7.widget.RecyclerView
 import android.widget.Button
 import android.widget.Toast
 import com.example.sg772.foodorder.Model.Order
-import com.example.sg772.foodorder.Model.Request
+import com.example.sg772.foodorder.newVer.auth.Requests.Request
 import com.example.sg772.foodorder.utils.DBHelper
 import com.example.sg772.foodorder.viewHolder.RequestAdapter
-import com.example.sg772.foodorder.viewHolder.placeOrderList
-import com.google.android.gms.common.internal.service.Common
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.paypal.android.sdk.payments.*
 
-import kotlinx.android.synthetic.main.activity_place_order.*
 import kotlinx.android.synthetic.main.app_bar_base_nav_drawer.*
 import org.json.JSONException
-import java.io.Serializable
 import java.math.BigDecimal
 
 /**
@@ -132,7 +109,7 @@ class placeOrderActivity : BaseNavDrawerActivity() {
                             Name = Name.text.toString(),
                             Phone = Phone.text.toString(),
                             Address = Address.text.toString(),
-                           Status =  status,
+                            Status = status,
                             Dishes = listOrdered
                         )
                         var mDatabase = FirebaseDatabase.getInstance().reference

@@ -34,7 +34,7 @@
                 android:name=".HomeActivity"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".Model.User">
+        <activity android:name=".newVer.auth.userauth.User">
         </activity>
         <activity android:name=".users">
         </activity>

@@ -1,4 +1,4 @@
-package com.example.sg772.foodorder.Model
+package com.example.sg772.foodorder.newVer.auth.mainMenu.Model
 
 class Food{
     var Description: String? = null

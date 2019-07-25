@@ -1,17 +1,12 @@
 package com.example.sg772.foodorder
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.example.sg772.foodorder.Model.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.login_layout.*
 
 class MainActivity : loginActivity() {
     private lateinit var auth: FirebaseAuth

@@ -1,23 +1,24 @@
 package com.example.sg772.foodorder.newVer.auth.userauth
 
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.Toast
-import com.example.sg772.foodorder.HomeActivity
 import com.example.sg772.foodorder.R
-import com.example.sg772.foodorder.newVer.auth.Utils.Utils
+import com.example.sg772.foodorder.loginActivity
 import com.example.sg772.foodorder.newVer.auth.mainMenu.mainPage
+import com.example.sg772.foodorder.utils.DBHelper
+import com.example.sg772.foodorder.utils.Session
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_auth.*
 import java.util.concurrent.TimeUnit
 
@@ -28,6 +29,7 @@ class authActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
+        var db = DBHelper(this)
         auth = FirebaseAuth.getInstance()
         auth_email_field.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -68,6 +70,10 @@ class authActivity : AppCompatActivity() {
                 logIn(auth_email_field.text.toString(), auth_passw_field.text.toString())
             }
         }
+        auth_act_reg.setOnClickListener {
+            var intent = Intent(this@authActivity, loginActivity::class.java)
+            startActivity(intent)
+        }
 
 
     }
@@ -75,9 +81,15 @@ class authActivity : AppCompatActivity() {
     public override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
-        auth = FirebaseAuth.getInstance()
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
+//        auth = FirebaseAuth.getInstance()
+//        val currentUser = auth.currentUser
+//        if (currentUser != null) {
+//            var intent = Intent(this@authActivity, mainPage::class.java)
+//            startActivity(intent)
+//        }
+        var db = Session(this)
+        var users = db.readDataSess()
+        if (users.size > 0) {
             var intent = Intent(this@authActivity, mainPage::class.java)
             startActivity(intent)
         }
@@ -85,28 +97,35 @@ class authActivity : AppCompatActivity() {
     }
 
     private fun logIn(email: String, password: String) {
+        var users_reference = FirebaseDatabase.getInstance().reference
+        users_reference.child("users").addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                Log.d("ERROR", p0.message)
+            }
 
-        var utils = Utils()
-        utils.showprogressDialog(this)
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    Log.d("DATACHANGE", p0.value.toString())
+                    for (user in p0.children) {
+                        var name = user.child("username").value
+                        var paswrd = user.child("password").value
+                        var phone = user.child("phone").value
+                        if (name.toString().equals(email) && paswrd.toString().equals(password) || phone.toString().equals(
+                                email
+                            ) && paswrd.toString().equals(password)
+                        ) {
+                            var db = Session(this@authActivity)
+                            db.insertDataSess(name.toString(), phone.toString())
+                            var intent = Intent(this@authActivity, mainPage::class.java)
+                            startActivity(intent)
 
-        auth = FirebaseAuth.getInstance()
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    val user = auth.currentUser
-                    utils.hideProgressDialog()
-                    var intent = Intent(this@authActivity, mainPage::class.java)
-                    startActivity(intent)
 
-                } else {
-                    utils.hideProgressDialog()
-                    Log.w("fail sign in", "signInWithEmail:failure", task.exception)
-                    Toast.makeText(
-                        baseContext, "Authentication failed.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                        }
+                    }
                 }
             }
+        })
+
 
     }
 
