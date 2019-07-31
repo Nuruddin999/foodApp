@@ -13,7 +13,7 @@ import android.widget.Toast
 import com.example.sg772.foodorder.Model.Order
 import com.example.sg772.foodorder.newVer.auth.Requests.Request
 import com.example.sg772.foodorder.utils.DBHelper
-import com.example.sg772.foodorder.viewHolder.RequestAdapter
+import com.example.sg772.foodorder.newVer.auth.Requests.RequestAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.paypal.android.sdk.payments.*

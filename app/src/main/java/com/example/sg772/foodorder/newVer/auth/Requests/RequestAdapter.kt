@@ -1,4 +1,4 @@
-package com.example.sg772.foodorder.viewHolder
+package com.example.sg772.foodorder.newVer.auth.Requests
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater

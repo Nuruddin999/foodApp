@@ -2,8 +2,13 @@ package com.example.sg772.foodorder.newVer.auth.mainMenu
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,6 +24,8 @@ import com.example.sg772.foodorder.utils.DBHelper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
+import java.io.File
+import java.io.FileOutputStream
 
 class singleFoodFragment : Fragment() {
     lateinit var ratingReference: DatabaseReference
@@ -38,6 +45,7 @@ class singleFoodFragment : Fragment() {
     lateinit var currentFood: Food
     lateinit var auth: FirebaseAuth
     lateinit var add_rating:FloatingActionButton
+    lateinit var sharebutton:ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         foodID = arguments!!.getString("foodID")
@@ -65,10 +73,33 @@ class singleFoodFragment : Fragment() {
 
         getFoodDetail(foodID)
        getFoodRating(foodID)
+//        sharebutton.setOnClickListener {
+//
+//            var bitmap=(food_detail_image.drawable as BitmapDrawable).bitmap
+//            var file= File(activity.getFI,"myimage.png")
+//            var fileOutputStream=FileOutputStream(file)
+//            bitmap.compress(Bitmap.CompressFormat.PNG,80,fileOutputStream)
+//            fileOutputStream.flush()
+//            fileOutputStream.close()
+//            file.setReadable(true,false)
+//
+//            var intent=Intent(Intent.ACTION_SEND)
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//            intent.putExtra(Intent.EXTRA_SUBJECT,food_name.text)
+//            intent.putExtra(Intent.EXTRA_TEXT,descr.text)
+//            intent.putExtra(Intent.EXTRA_STREAM,Uri.fromFile(file))
+//            startActivity(Intent.createChooser(intent,"Select"))
+//
+//        }
         add_rating.setOnClickListener {
             showRatingDialog(rating)
         }
 makeOrder.setOnClickListener {
+    if (amount.text.toString().equals("0")){
+        var snackbar= Snackbar.make(view,"choose amount", Snackbar.LENGTH_SHORT)
+        snackbar.show()
+        return@setOnClickListener
+    }
     var totalAmout=Integer.parseInt(foodPrice.text.toString())*Integer.parseInt(amount.text.toString())
 
     var bundle=Bundle()
@@ -147,6 +178,7 @@ makeOrder.setOnClickListener {
         makeOrder = view!!.findViewById(R.id.make_order_button)
         addfavorite = view!!.findViewById(R.id.add_tofavorite_button)
         add_rating=view!!.findViewById(R.id.add_rating_button)
+        sharebutton=view!!.findViewById(R.id.add_tofavorite_button)
     }
 
     private fun getFoodDetail(foodID: String) {

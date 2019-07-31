@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+
+              android:background="@drawable/dialog_order_back"
+
+android:layout_gravity="center"
+             android:layout_margin="20dp"
+              android:padding="23dp">
+    <EditText
+            android:id="@+id/place_order_name"
+
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:hint="Name"
+            style="@style/message_dialog_field"
+android:textSize="20sp"
+            android:padding="6dp"
+    />
+<EditText
+
+        android:id="@+id/message_field"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:lines="5"
+        android:hint="Message"
+        android:gravity="top"
+style="@style/message_dialog_field"
+        android:padding="5dp"
+
+/>
+
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal"
+
+                  android:weightSum="2"
+android:layout_gravity="center"
+                  android:layout_margin="12dp">
+        <Button
+                android:text="Send" android:id="@+id/messagedialog_send"
+                android:layout_width="0dp"
+                android:background="@drawable/order_dialog_buy_button_back"                      android:layout_weight="1" android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"/>
+        <Button
+                android:id="@+id/orderdialog_negative"
+                android:layout_width="0dp"
+                android:layout_weight="1" android:layout_height="wrap_content"
+                android:text="cancel"
+                android:layout_marginLeft="12dp"/>
+    </LinearLayout>
+</LinearLayout>

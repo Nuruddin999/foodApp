@@ -15,8 +15,8 @@ import com.example.sg772.foodorder.newVer.auth.Requests.Request
 import com.example.sg772.foodorder.newVer.auth.mainMenu.Model.categories
 
 import com.example.sg772.foodorder.R
-import com.example.sg772.foodorder.viewHolder.FoodViewHolder
-import com.example.sg772.foodorder.viewHolder.menuViewHolder
+import com.example.sg772.foodorder.newVer.auth.mainMenu.FoodViewHolder
+import com.example.sg772.foodorder.newVer.auth.mainMenu.menuViewHolder
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference

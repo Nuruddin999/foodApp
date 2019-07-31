@@ -30,6 +30,12 @@
      <item name="android:backgroundTint">@android:color/white</item>
        <item name="android:textColorHint">@android:color/white</item>
     </style>
+    <style name="message_dialog_field" parent="android:Widget.EditText">
+        <item name="android:background">@drawable/message_dialog_message_back</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:textColorHint">@android:color/white</item>
+    </style>
     <style name="requestListitem">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">#fff</item>

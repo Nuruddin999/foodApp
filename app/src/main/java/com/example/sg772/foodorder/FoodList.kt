@@ -8,7 +8,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import com.example.sg772.foodorder.newVer.auth.mainMenu.Model.Food
-import com.example.sg772.foodorder.viewHolder.FoodViewHolder
+import com.example.sg772.foodorder.newVer.auth.mainMenu.FoodViewHolder
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.google.firebase.database.*
 import com.mancj.materialsearchbar.MaterialSearchBar

@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import com.example.sg772.foodorder.newVer.auth.mainMenu.Model.categories
 
 import com.example.sg772.foodorder.R
-import com.example.sg772.foodorder.viewHolder.menuViewHolder
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase

@@ -1,11 +1,13 @@
 package com.example.sg772.foodorder.newVer.auth.order
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.DialogFragment
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.*
 import android.widget.Button
@@ -17,12 +19,16 @@ import com.example.sg772.foodorder.Model.Order
 import com.example.sg772.foodorder.newVer.auth.Requests.Request
 import com.example.sg772.foodorder.R
 import com.example.sg772.foodorder.placeOrderActivity
+import com.example.sg772.foodorder.utils.DBHelper
+import com.example.sg772.foodorder.utils.Session
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.paypal.android.sdk.payments.PayPalConfiguration
-import com.paypal.android.sdk.payments.PayPalService
+import com.paypal.android.sdk.payments.*
+import kotlinx.android.synthetic.main.login_layout.*
+import org.json.JSONException
+import java.math.BigDecimal
 import java.util.ArrayList
 
 class orderDialogFragment:DialogFragment() {
@@ -35,7 +41,7 @@ lateinit var orderDialogVIew:View
     lateinit var total:TextView
     lateinit var buyButton:Button
     lateinit var cancelButton:Button
-    lateinit var user: FirebaseUser
+var username=""
     var foodname=""
     var quantity=""
     var orderslist=ArrayList<Order>()
@@ -43,8 +49,8 @@ lateinit var orderDialogVIew:View
      var succeslistener: successPurchase?=null
     var totalam=0
     companion object {
-        val PAYPAL_REQUEST_CODE: Int = 9999
-        var paypalConfig = PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
+        val PAYP_REQUEST_CODE: Int = 9999
+        var paypConfig = PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
             .clientId(com.example.sg772.foodorder.utils.paypalConfig.clientId)
     }
 
@@ -56,10 +62,14 @@ activity?.startService(intent)
         quantity=arguments?.getString("quantity")!!
 foodname= arguments?.getString("foodname")!!
      totalam= arguments?.getInt("total")!!
-         user=FirebaseAuth.getInstance().currentUser!!
-        Log.d("USER",user.email)
-        var order=Order(user.email,foodname,quantity,totalam.toString(),null)
-orderslist.add(order)
+         var db=Session(context!!)
+        var us=db.readDataSess()
+            Log.d("USER",us[0].username)
+            var order=Order(us[0].username,foodname,quantity,totalam.toString(),null)
+            orderslist.add(order)
+            username= us[0].username!!
+
+
 
     }
     override fun onStart() {
@@ -87,7 +97,7 @@ name_field=orderDialogVIew.findViewById(R.id.place_order_name)
         total=orderDialogVIew.findViewById(R.id.total_order_dialog)
         buyButton=orderDialogVIew.findViewById(R.id.orderdialog_positive)
         cancelButton=orderDialogVIew.findViewById(R.id.orderdialog_negative)
-        name_field.setText(user.email)
+        name_field.setText(username)
 total.setText("$totalam  USD")
 buyButton.setOnClickListener {
     if(name_field.text.isNullOrEmpty()|| phone_field.text.isNullOrEmpty() || address_field.text.isNullOrEmpty() ){
@@ -96,36 +106,48 @@ buyButton.setOnClickListener {
         return@setOnClickListener
     }
     Log.d("click","buy")
-    buy(name_field.text.toString(),phone_field.text.toString(),address_field.text.toString(),orderslist)
+    buy()
 }
         return alertDialog.create()
 
     }
 
-    private fun buy(
-        name: String,
-        phone: String,
-        address: String,
-        orderslist: ArrayList<Order>
-    ) {
-val request= Request(name, phone, address, "01", orderslist)
-        var mDatabase = FirebaseDatabase.getInstance().reference
-        mDatabase.child("Requests").child(System.currentTimeMillis().toString()).setValue(request).addOnCompleteListener { task -> if(task.isSuccessful){
-            dismiss()
+    private fun buy() {
+        var payPalPayment = PayPalPayment(BigDecimal(totalam), "USD", "order", PayPalPayment.PAYMENT_INTENT_SALE)
+        var intent = Intent(context, PaymentActivity::class.java)
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, paypConfig)
+        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payPalPayment)
+        startActivityForResult(intent, PAYP_REQUEST_CODE)
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == PAYP_REQUEST_CODE) {
+            if (resultCode == AppCompatActivity.RESULT_OK) {
+                var paymentConfirmation: PaymentConfirmation =
+                    data!!.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION)
+                if (paymentConfirmation != null) {
+                    try {
+                        var paymentDetail: String = paymentConfirmation.toJSONObject().toString(4)
+                        val request= Request(name_field.text.toString(), phone_field.text.toString(), address_field.text.toString(), "01", orderslist)
+                        var mDatabase = FirebaseDatabase.getInstance().reference
+                        mDatabase.child("Requests").child(System.currentTimeMillis().toString()).setValue(request).addOnCompleteListener { task ->if (task.isSuccessful)
+                        {
+                            Toast.makeText(context, "Thanks ! Your order is made ! ", Toast.LENGTH_LONG).show()
+                        }}
 
-            val infl=layoutInflater
-            val toastLayout=infl.inflate(R.layout.successorderpopup,null)
-            with(Toast(context)){
-                setGravity(Gravity.CENTER,0,0)
-                duration= Toast.LENGTH_SHORT
-                view=toastLayout
-                show()
+
+
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                        error("Something wrong")
+                    }
+
+                }
             }
 
-            if (succeslistener!=null){
-                succeslistener?.confirm()
-            }
-
-        }  }
+        } else if (requestCode == Activity.RESULT_CANCELED)
+            Toast.makeText(context, "Payment cancel ", Toast.LENGTH_LONG).show()
+        else if (requestCode == PaymentActivity.RESULT_EXTRAS_INVALID)
+            Toast.makeText(context, "Invalid Payment", Toast.LENGTH_LONG).show()
+        // super.onActivityResult(requestCode, resultCode, data)
     }
 }
