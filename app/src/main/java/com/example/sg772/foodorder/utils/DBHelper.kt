@@ -58,7 +58,7 @@ open class DBHelper(var context: Context) :
     fun readData(): ArrayList<Order>{
         var list=ArrayList<Order>()
         val db=this.writableDatabase
-val usr: String? = FirebaseAuth.getInstance().currentUser!!.email
+
 val query="select * from "+ TABLE_NAME
 //+" where "+ COL_USER+"="+"'"+usr+"'"
         val result=db.rawQuery(query, null)

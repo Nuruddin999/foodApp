@@ -1,15 +1,24 @@
 package com.example.sg772.foodorder.newVer.auth.mainMenu
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.os.StrictMode
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
+import android.support.v4.content.FileProvider
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -24,8 +33,11 @@ import com.example.sg772.foodorder.utils.DBHelper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
+import com.squareup.picasso.Target
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.lang.reflect.Method
 
 class singleFoodFragment : Fragment() {
     lateinit var ratingReference: DatabaseReference
@@ -44,8 +56,15 @@ class singleFoodFragment : Fragment() {
     lateinit var food_data: DatabaseReference
     lateinit var currentFood: Food
     lateinit var auth: FirebaseAuth
-    lateinit var add_rating:FloatingActionButton
-    lateinit var sharebutton:ImageView
+    lateinit var add_rating: FloatingActionButton
+    lateinit var sharebutton: ImageView
+    var url = ""
+    var share_bitmap: Bitmap? = null
+
+    companion object {
+        open var TAG = "FOODORDER"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         foodID = arguments!!.getString("foodID")
@@ -69,63 +88,86 @@ class singleFoodFragment : Fragment() {
             amount.text = quantity.toString()
         }
         food_data = FirebaseDatabase.getInstance().getReference("Food")
-        ratingReference=FirebaseDatabase.getInstance().getReference("Rating")
+        ratingReference = FirebaseDatabase.getInstance().getReference("Rating")
 
         getFoodDetail(foodID)
-       getFoodRating(foodID)
-//        sharebutton.setOnClickListener {
+        getFoodRating(foodID)
+
+
+        sharebutton.setOnClickListener {
+
+
+
+
+
+
+          var bos = ByteArrayOutputStream()
+           share_bitmap!!.compress(Bitmap.CompressFormat.PNG, 80, bos)
+            var path = File("${Environment.getExternalStorageDirectory()}")
+                    var file = File(path,"myfile.png")
+                    var fileOutputStream = FileOutputStream(file)
+                    Log.d(TAG,file.absolutePath)
+                    fileOutputStream.write(bos.toByteArray())
+                    var uri=FileProvider.getUriForFile(context!!,"com.example.sg772.foodorder",file)
+                    var intent = Intent(Intent.ACTION_SEND)
+                    intent.setType("image/*")
+                    intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    intent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+
+            intent.putExtra(Intent.EXTRA_STREAM,uri)
+                    startActivity(Intent.createChooser(intent, "Select"))
+
+
+      /*   try {
+              file.createNewFile()
+
+               var fileOutputStream = FileOutputStream(file)
+             Log.d(TAG,file.absolutePath)
+               fileOutputStream.write(bos.toByteArray())
+           } catch (e: Exception) {
+              e.printStackTrace()
+           }*/
 //
-//            var bitmap=(food_detail_image.drawable as BitmapDrawable).bitmap
-//            var file= File(activity.getFI,"myimage.png")
-//            var fileOutputStream=FileOutputStream(file)
-//            bitmap.compress(Bitmap.CompressFormat.PNG,80,fileOutputStream)
-//            fileOutputStream.flush()
-//            fileOutputStream.close()
-//            file.setReadable(true,false)
-//
-//            var intent=Intent(Intent.ACTION_SEND)
-//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//            intent.putExtra(Intent.EXTRA_SUBJECT,food_name.text)
-//            intent.putExtra(Intent.EXTRA_TEXT,descr.text)
-//            intent.putExtra(Intent.EXTRA_STREAM,Uri.fromFile(file))
-//            startActivity(Intent.createChooser(intent,"Select"))
-//
-//        }
+
+
+
+
+        }
+
         add_rating.setOnClickListener {
             showRatingDialog(rating)
         }
-makeOrder.setOnClickListener {
-    if (amount.text.toString().equals("0")){
-        var snackbar= Snackbar.make(view,"choose amount", Snackbar.LENGTH_SHORT)
-        snackbar.show()
-        return@setOnClickListener
-    }
-    var totalAmout=Integer.parseInt(foodPrice.text.toString())*Integer.parseInt(amount.text.toString())
+        makeOrder.setOnClickListener {
+            if (amount.text.toString().equals("0")) {
+                var snackbar = Snackbar.make(view, "choose amount", Snackbar.LENGTH_SHORT)
+                snackbar.show()
+                return@setOnClickListener
+            }
+            var totalAmout = Integer.parseInt(foodPrice.text.toString()) * Integer.parseInt(amount.text.toString())
 
-    var bundle=Bundle()
-    bundle.putInt("total",totalAmout)
-    bundle.putString("foodname",food_name.text.toString())
-    bundle.putString("quantity",amount.text.toString())
-    Log.d("TOTAL","${totalAmout.toString()}, ${amount.text.toString()} , ${food_name.text.toString()} ")
-    var orderDialogFragment=orderDialogFragment()
-    orderDialogFragment.arguments=bundle
+            var bundle = Bundle()
+            bundle.putInt("total", totalAmout)
+            bundle.putString("foodname", food_name.text.toString())
+            bundle.putString("quantity", amount.text.toString())
+            Log.d("TOTAL", "${totalAmout.toString()}, ${amount.text.toString()} , ${food_name.text.toString()} ")
+            var orderDialogFragment = orderDialogFragment()
+            orderDialogFragment.arguments = bundle
 
-    orderDialogFragment.show(fragmentManager,"")
+            orderDialogFragment.show(fragmentManager, "")
 
-}
+        }
         cartButton.setOnClickListener {
             Log.d("cart", "CLICKED")
 
             if (amount.text.contains("0")) {
-                Toast.makeText(activity, "Please choose quantity", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Please choose quantity", Toast.LENGTH_LONG).show()
             } else {
-                val user = FirebaseAuth.getInstance().currentUser!!.email
+
                 var oder =
                     Order(null, food_name.text.toString(), amount.text.toString(), foodPrice.text.toString(), null)
                 var db = DBHelper(context!!)
                 db.insertData(oder)
                 var list = db.readData()
-
 
 
                 /*object : Database(this@FoodDetailActivity){}.addToCart(object : Order(foodID, currentFood.Name, amount.text.toString(), currentFood.Price.toString(), null){})
@@ -177,8 +219,8 @@ makeOrder.setOnClickListener {
         cartButton = view!!.findViewById(R.id.add_tocart_button)
         makeOrder = view!!.findViewById(R.id.make_order_button)
         addfavorite = view!!.findViewById(R.id.add_tofavorite_button)
-        add_rating=view!!.findViewById(R.id.add_rating_button)
-        sharebutton=view!!.findViewById(R.id.add_tofavorite_button)
+        add_rating = view!!.findViewById(R.id.add_rating_button)
+        sharebutton = view!!.findViewById(R.id.add_tofavorite_button)
     }
 
     private fun getFoodDetail(foodID: String) {
@@ -189,10 +231,25 @@ makeOrder.setOnClickListener {
             override fun onDataChange(p0: DataSnapshot) {
 
                 currentFood = p0.getValue(Food::class.java)!!
-                Picasso.with(context).load(currentFood?.Image).into(food_detail_image)
+                Picasso.with(context).load(currentFood?.Image).into(object : Target {
+                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+
+                    }
+
+                    override fun onBitmapFailed(errorDrawable: Drawable?) {
+
+                    }
+
+                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                        food_detail_image.setImageBitmap(bitmap)
+                        share_bitmap = bitmap
+                    }
+                })
                 foodPrice.text = currentFood?.Price.toString()
                 food_name.text = currentFood?.Name
                 descr.text = currentFood?.Description
+                url = currentFood?.Image.toString()
+                Log.d("Image URL", url)
             }
         })
     }
@@ -222,7 +279,7 @@ makeOrder.setOnClickListener {
             ratingReference.child(foodID).child(auth.currentUser?.displayName.toString())
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onCancelled(p0: DatabaseError) {
-Log.d("ERROR",p0.message)
+                        Log.d("ERROR", p0.message)
                     }
 
                     override fun onDataChange(p0: DataSnapshot) {
@@ -230,7 +287,7 @@ Log.d("ERROR",p0.message)
                             ratingReference.child(foodID).child(auth.currentUser?.displayName.toString()).removeValue()
                             ratingReference.child(foodID).child(auth.currentUser?.displayName.toString())
                                 .setValue(rating)
-                          getFoodRating(foodID)
+                            getFoodRating(foodID)
 
 
                         } else {
