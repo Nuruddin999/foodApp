@@ -8,12 +8,12 @@
 >
 
         <ImageView android:layout_width="match_parent"
-                   android:layout_height="100dp" android:src="@drawable/eatitgr"
+                   android:layout_height="@dimen/food_category_icon_height_xhdpi" android:src="@drawable/eatitgr"
         />
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
 
                   android:scrollbars="vertical"
-                  android:textSize="15sp"
+                  android:textSize="20sp"
                   android:textStyle="bold"
                   android:text="Since 1980th. Best dishes for you. Look , order , taste , enjoi . Fast delivery, good service, many lots of dishes "
                   android:layout_margin="2dp"/>

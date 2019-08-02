@@ -1,5 +1,6 @@
 package com.example.sg772.foodorder.newVer.auth.mainMenu
 
+import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
@@ -103,17 +104,25 @@ class singleFoodFragment : Fragment() {
 
           var bos = ByteArrayOutputStream()
            share_bitmap!!.compress(Bitmap.CompressFormat.PNG, 80, bos)
+            //
+            var permission=ContextCompat.checkSelfPermission(context!!,android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
             var path = File("${Environment.getExternalStorageDirectory()}")
                     var file = File(path,"myfile.png")
-                    var fileOutputStream = FileOutputStream(file)
+
                     Log.d(TAG,file.absolutePath)
-                    fileOutputStream.write(bos.toByteArray())
+            if(permission==PackageManager.PERMISSION_GRANTED){
+                var fileOutputStream = FileOutputStream(file)
+                fileOutputStream.write(bos.toByteArray())
+            } else {
+                ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE),1)
+                }
                     var uri=FileProvider.getUriForFile(context!!,"com.example.sg772.foodorder",file)
                     var intent = Intent(Intent.ACTION_SEND)
                     intent.setType("image/*")
                     intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     intent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-
+intent.putExtra(Intent.EXTRA_TEXT,food_name.text)
             intent.putExtra(Intent.EXTRA_STREAM,uri)
                     startActivity(Intent.createChooser(intent, "Select"))
 
