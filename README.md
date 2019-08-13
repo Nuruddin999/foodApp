@@ -11,7 +11,7 @@
 
   <img src="Screenshots/share.png" width=250 height=400> <img src="Screenshots/cart.png" width=250 height=400> <img src="Screenshots/orderdialog.png" width=250 height=400> 
 
- <img src="Screenshots/paypal.png" width=250 height=400> <img src="Screenshots/aboutus.png" width=200 height=450>
+ <img src="Screenshots/paypal.png" width=250 height=400> <img src="Screenshots/aboutus.png" width=250 height=400>
 
 
 
