@@ -8,12 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import com.example.sg772.foodorder.Model.Order
+import com.example.sg772.foodorder.newVer.auth.order.Order
 import com.example.sg772.foodorder.R
-import com.example.sg772.foodorder.utils.DBHelper
+import com.example.sg772.foodorder.newVer.auth.Utils.DBHelper
 import java.util.ArrayList
 
-class CartAdapter (val list: ArrayList<Order>, val context: Context, var text: TextView, var button: Button,var listener: cartAdapterListener): RecyclerView.Adapter<CartAdapter.ViewHolder>() {
+class CartAdapter (val list: ArrayList<Order>, val context: Context, var text: TextView, var button: Button, var listener: cartAdapterListener): RecyclerView.Adapter<CartAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
@@ -28,7 +28,7 @@ return  list.size
     }
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
-val order:Order=list[p1]
+val order: Order =list[p1]
         p0.productName.text=order.ProductName
         p0.productQuantity.text=order.Quantity+" "+"portions"
         p0.productPrice.text=order.Price+" "+"usd"
@@ -39,7 +39,7 @@ p0.deleteButtom.setOnClickListener {
  /*   var intent= Intent("com.example.sg772.foodorder.RemovedNumber")
     intent.putExtra("rnum",removedTotal)
     LocalBroadcastManager.getInstance(context).sendBroadcast(intent)*/
-    var db=DBHelper(context)
+    var db= DBHelper(context)
     db.deleteData(order.ProductName.toString())
     list.remove(order)
 notifyDataSetChanged()

@@ -1,10 +1,10 @@
-package com.example.sg772.foodorder.utils
+package com.example.sg772.foodorder.newVer.auth.Utils
 
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteQueryBuilder
-import com.example.sg772.foodorder.Model.Order
+import com.example.sg772.foodorder.newVer.auth.order.Order
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper
 import java.util.ArrayList
@@ -42,7 +42,7 @@ queryBuilder.tables=orderDetailTable
         }
         return result
     }
-    fun addToCart(order:Order): Unit {
+    fun addToCart(order: Order): Unit {
         var db:SQLiteDatabase=readableDatabase
 
         var query:String= String.format("INSERT INTO Order_details(ProductID, ProductName,Quantity,Price,Discount) VALUES ('%s','%s','%s','%s','%s')", order.ProductID,

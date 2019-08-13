@@ -1,4 +1,4 @@
-package com.example.sg772.foodorder.utils
+package com.example.sg772.foodorder.newVer.auth.Utils
 
 import android.content.ContentValues
 import android.content.Context
@@ -12,7 +12,8 @@ val S_NAME = "Sess"
 val S_TABLE_NAME = "CURSESS"
 val S_USER_PHONE="phone"
 val S_COL_USER = "user"
-open class Session(var context: Context): SQLiteOpenHelper(context, S_NAME, null,1){
+open class Session(var context: Context): SQLiteOpenHelper(context,
+    S_NAME, null,1){
 
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -45,8 +46,8 @@ val create="CREATE TABLE $S_TABLE_NAME ( $S_COL_USER VARCHAR(300), $S_USER_PHONE
         if (result.moveToFirst()){
             do {
                 var user= User()
-                user.username=result.getString(result.getColumnIndex(com.example.sg772.foodorder.utils.COL_USER))
-                user.username=result.getString(result.getColumnIndex(com.example.sg772.foodorder.utils.USER_PHONE))
+                user.username=result.getString(result.getColumnIndex(COL_USER))
+                user.username=result.getString(result.getColumnIndex(USER_PHONE))
 
                 list.add(user)
 

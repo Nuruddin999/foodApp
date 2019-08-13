@@ -1,12 +1,11 @@
-package com.example.sg772.foodorder.utils
+package com.example.sg772.foodorder.newVer.auth.Utils
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
-import com.example.sg772.foodorder.Model.Order
-import com.google.firebase.auth.FirebaseAuth
+import com.example.sg772.foodorder.newVer.auth.order.Order
 import java.util.ArrayList
 
 val DB_NAME = "Order"
@@ -64,7 +63,7 @@ val query="select * from "+ TABLE_NAME
         val result=db.rawQuery(query, null)
         if (result.moveToFirst()){
             do {
-                var order=Order()
+                var order= Order()
                 order.ProductID=result.getString(result.getColumnIndex(COL_PRODUCTID)).toInt()
                 order.User=result.getString(result.getColumnIndex(COL_USER))
                 order.ProductName=result.getString(result.getColumnIndex(COL_PRODUCTNAME))
@@ -80,7 +79,7 @@ val query="select * from "+ TABLE_NAME
     }
     fun deleteData(name: String){
         val db=this.writableDatabase
-        val query="delete  from "+ TABLE_NAME+ " where "+ COL_PRODUCTNAME+"="+"'"+name+"'"
+        val query="delete  from "+ TABLE_NAME + " where "+ COL_PRODUCTNAME +"="+"'"+name+"'"
         val result=db.execSQL(query)
     }
     fun deleteAll(){

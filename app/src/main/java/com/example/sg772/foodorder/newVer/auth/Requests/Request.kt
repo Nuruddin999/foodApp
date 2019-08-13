@@ -1,6 +1,6 @@
 package com.example.sg772.foodorder.newVer.auth.Requests
 
-import com.example.sg772.foodorder.Model.Order
+import com.example.sg772.foodorder.newVer.auth.order.Order
 
 class Request {
     var Name: String? = null

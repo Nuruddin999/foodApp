@@ -1,4 +1,4 @@
-package com.example.sg772.foodorder.Model
+package com.example.sg772.foodorder.newVer.auth.order
 
 import java.io.Serializable
 

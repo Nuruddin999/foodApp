@@ -12,8 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.sg772.foodorder.R
 import com.example.sg772.foodorder.newVer.auth.userauth.authActivity
-import com.example.sg772.foodorder.utils.Session
-import kotlinx.android.synthetic.main.activity_home.*
+import com.example.sg772.foodorder.newVer.auth.Utils.Session
 import java.util.*
 
 class aboutUS: Fragment() {
@@ -25,7 +24,7 @@ lateinit var call_button: android.support.v7.widget.CardView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var View: View = inflater.inflate(R.layout.about_us_fragment, container, false)
-        var db=Session(context!!)
+        var db= Session(context!!)
         var us=db.readDataSess()
         logout=View.findViewById(R.id.log_out)
         logout.setOnClickListener {

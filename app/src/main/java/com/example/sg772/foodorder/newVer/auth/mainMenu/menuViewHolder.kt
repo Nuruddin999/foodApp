@@ -1,14 +1,11 @@
 package com.example.sg772.foodorder.newVer.auth.mainMenu
 
-import android.support.v7.view.menu.ActionMenuItemView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import com.example.sg772.foodorder.Interface.itemClickListen
+import com.example.sg772.foodorder.newVer.auth.Cart.itemClickListen
 import com.example.sg772.foodorder.R
-import kotlin.coroutines.experimental.coroutineContext
 
 
 class   menuViewHolder(itemView: View): RecyclerView.ViewHolder(itemView),  View.OnClickListener{

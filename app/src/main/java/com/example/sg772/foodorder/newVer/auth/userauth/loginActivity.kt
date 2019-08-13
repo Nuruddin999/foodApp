@@ -1,19 +1,16 @@
-package com.example.sg772.foodorder
+package com.example.sg772.foodorder.newVer.auth.userauth
 
 import android.app.ProgressDialog
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v4.app.NavUtils
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.example.sg772.foodorder.newVer.auth.userauth.User
-import com.example.sg772.foodorder.newVer.auth.userauth.authActivity
+import com.example.sg772.foodorder.R
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.login_layout.*
 

@@ -15,10 +15,10 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.example.sg772.foodorder.newVer.auth.Cart.successPurchase
-import com.example.sg772.foodorder.Model.Order
 import com.example.sg772.foodorder.newVer.auth.Requests.Request
 import com.example.sg772.foodorder.R
-import com.example.sg772.foodorder.utils.Session
+import com.example.sg772.foodorder.newVer.auth.Utils.Session
+import com.example.sg772.foodorder.newVer.auth.Utils.paypalConfig
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.paypal.android.sdk.payments.*
@@ -46,7 +46,7 @@ var username=""
     companion object {
         val PAYP_REQUEST_CODE: Int = 9999
         var paypConfig = PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
-            .clientId(com.example.sg772.foodorder.utils.paypalConfig.clientId)
+            .clientId(paypalConfig.clientId)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,10 +57,16 @@ activity?.startService(intent)
         quantity=arguments?.getString("quantity")!!
 foodname= arguments?.getString("foodname")!!
      totalam= arguments?.getInt("total")!!
-         var db=Session(context!!)
+         var db= Session(context!!)
         var us=db.readDataSess()
             Log.d("USER",us[0].username)
-            var order=Order(us[0].username,foodname,quantity,totalam.toString(),null)
+            var order= Order(
+                us[0].username,
+                foodname,
+                quantity,
+                totalam.toString(),
+                null
+            )
             orderslist.add(order)
             username= us[0].username!!
 

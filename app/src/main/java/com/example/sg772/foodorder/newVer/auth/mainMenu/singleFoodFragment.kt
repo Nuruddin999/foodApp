@@ -2,18 +2,13 @@ package com.example.sg772.foodorder.newVer.auth.mainMenu
 
 import android.Manifest
 import android.app.AlertDialog
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.os.StrictMode
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
@@ -26,11 +21,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.example.sg772.foodorder.newVer.auth.mainMenu.Model.Food
-import com.example.sg772.foodorder.Model.Order
+import com.example.sg772.foodorder.newVer.auth.order.Order
 import com.example.sg772.foodorder.newVer.auth.mainMenu.Model.Rating
 import com.example.sg772.foodorder.R
 import com.example.sg772.foodorder.newVer.auth.order.orderDialogFragment
-import com.example.sg772.foodorder.utils.DBHelper
+import com.example.sg772.foodorder.newVer.auth.Utils.DBHelper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
@@ -38,7 +33,6 @@ import com.squareup.picasso.Target
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
-import java.lang.reflect.Method
 
 class singleFoodFragment : Fragment() {
     lateinit var ratingReference: DatabaseReference
@@ -173,7 +167,13 @@ intent.putExtra(Intent.EXTRA_TEXT,food_name.text)
             } else {
 
                 var oder =
-                    Order(null, food_name.text.toString(), amount.text.toString(), foodPrice.text.toString(), null)
+                    Order(
+                        null,
+                        food_name.text.toString(),
+                        amount.text.toString(),
+                        foodPrice.text.toString(),
+                        null
+                    )
                 var db = DBHelper(context!!)
                 db.insertData(oder)
                 var list = db.readData()

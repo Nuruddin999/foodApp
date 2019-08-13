@@ -7,10 +7,9 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import com.example.sg772.foodorder.R
-import com.example.sg772.foodorder.loginActivity
 import com.example.sg772.foodorder.newVer.auth.mainMenu.mainPage
-import com.example.sg772.foodorder.utils.DBHelper
-import com.example.sg772.foodorder.utils.Session
+import com.example.sg772.foodorder.newVer.auth.Utils.DBHelper
+import com.example.sg772.foodorder.newVer.auth.Utils.Session
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential

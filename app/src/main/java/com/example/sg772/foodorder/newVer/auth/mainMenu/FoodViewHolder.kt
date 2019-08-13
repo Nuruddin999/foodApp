@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
-import com.example.sg772.foodorder.Interface.itemClickListen
+import com.example.sg772.foodorder.newVer.auth.Cart.itemClickListen
 import com.example.sg772.foodorder.R
 
 class   FoodViewHolder(itemView: View): RecyclerView.ViewHolder(itemView),  View.OnClickListener{

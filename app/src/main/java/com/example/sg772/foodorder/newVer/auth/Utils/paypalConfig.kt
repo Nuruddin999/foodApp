@@ -1,4 +1,4 @@
-package com.example.sg772.foodorder.utils
+package com.example.sg772.foodorder.newVer.auth.Utils
 
 open class paypalConfig {
    companion object {

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.example.sg772.foodorder.Model.Order
+import com.example.sg772.foodorder.newVer.auth.order.Order
 import com.example.sg772.foodorder.R
 import java.util.ArrayList
 

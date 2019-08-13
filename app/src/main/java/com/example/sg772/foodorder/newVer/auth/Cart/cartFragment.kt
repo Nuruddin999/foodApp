@@ -10,10 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import com.example.sg772.foodorder.Model.Order
+import com.example.sg772.foodorder.newVer.auth.order.Order
 import com.example.sg772.foodorder.R
 import com.example.sg772.foodorder.newVer.auth.order.orderDialogFragment
-import com.example.sg772.foodorder.utils.DBHelper
+import com.example.sg772.foodorder.newVer.auth.Utils.DBHelper
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.util.ArrayList
