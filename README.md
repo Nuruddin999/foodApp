@@ -9,8 +9,8 @@
 
 <img src="Screenshots/Screenshot_1552683473.png" width=200 height=300> <img src="Screenshots/Screenshot_1553844606.png" width=200 height=300>
 <img src="Screenshots/main.png" width=200 height=300>
-<img src="Screenshots/Screenshot_1553845090.png" width=200 height=300>
-<img src="Screenshots/Screenshot_1553845200.png" width=200 height=300>
-<img src="Screenshots/Screenshot_1553845237.png" width=200 height=300>
-<img src="Screenshots/Screenshot_1553845276.png" width=200 height=300>
-<img src="Screenshots/Screenshot_1553845624.png" width=200 height=300>
+<img src="Screenshots/singleitem.png" width=200 height=300>
+<img src="Screenshots/cart.png" width=200 height=300>
+<img src="Screenshots/orderdialog.png" width=200 height=300>
+<img src="Screenshots/share.png" width=200 height=300>
+<img src="Screenshots/paypal.png" width=200 height=300>
