@@ -18,15 +18,10 @@ import com.example.sg772.foodorder.newVer.auth.Cart.successPurchase
 import com.example.sg772.foodorder.Model.Order
 import com.example.sg772.foodorder.newVer.auth.Requests.Request
 import com.example.sg772.foodorder.R
-import com.example.sg772.foodorder.placeOrderActivity
-import com.example.sg772.foodorder.utils.DBHelper
 import com.example.sg772.foodorder.utils.Session
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.paypal.android.sdk.payments.*
-import kotlinx.android.synthetic.main.login_layout.*
 import org.json.JSONException
 import java.math.BigDecimal
 import java.util.ArrayList
@@ -57,7 +52,7 @@ var username=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var intent = Intent(context, PayPalService::class.java)
-        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, placeOrderActivity.paypalConfig)
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, paypConfig)
 activity?.startService(intent)
         quantity=arguments?.getString("quantity")!!
 foodname= arguments?.getString("foodname")!!

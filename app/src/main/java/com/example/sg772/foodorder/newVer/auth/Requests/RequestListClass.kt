@@ -1,8 +1,9 @@
-package com.example.sg772.foodorder
+package com.example.sg772.foodorder.newVer.auth.Requests
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
+import com.example.sg772.foodorder.R
 
 class RequestListClass(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val reqId=itemView.findViewById(R.id.request_list_item_id) as TextView

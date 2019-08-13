@@ -115,17 +115,7 @@ if (name.isNullOrEmpty()|| phone.isNullOrEmpty() || pass.isNullOrEmpty() || conf
 
     }
 */
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        when (item.itemId) {
-            android.R.id.home -> {
-                val upIntent = Intent(this, MainActivity::class.java)
-                NavUtils.navigateUpTo(this, upIntent)
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
 }
 
 
