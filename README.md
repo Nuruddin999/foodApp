@@ -7,7 +7,7 @@
 * Paypal API
 
 
-<img src="Screenshots/auth.png" width=200 height=300> <img src="Screenshots/Screenshot_1553844606.png" width=200 height=300>
+<img src="Screenshots/auth.png" width=200 height=300> 
 <img src="Screenshots/main.png" width=200 height=300>
 <img src="Screenshots/singleitem.png" width=200 height=300>
 <img src="Screenshots/cart.png" width=200 height=300>
