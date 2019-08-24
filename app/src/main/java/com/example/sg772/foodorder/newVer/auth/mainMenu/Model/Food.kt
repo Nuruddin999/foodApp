@@ -7,9 +7,9 @@ class Food{
     var Name: String? = null
     var Price: Long? = null
     var averagerating=0.0
-    constructor(){
+        constructor(){
 
-    }
+        }
 
     constructor(Description: String?, Image: String?, MenuId: String?, Name: String?, Price: Long?) {
         this.Description = Description
