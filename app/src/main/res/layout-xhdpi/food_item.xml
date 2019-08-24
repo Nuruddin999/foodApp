@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:background="@drawable/auth_activity_fields"
+              android:layout_marginTop="5dp">
+    <ImageView
+            android:id="@+id/foodImage"
+
+            android:scaleType="fitXY"
+            android:layout_width="@dimen/fooditem_icon_width_xhdpi"
+            android:layout_height="@dimen/fooditem_icon_height_xhdpi"
+
+            android:layout_gravity="center"
+    />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:layout_gravity="center">
+        <TextView
+
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="@string/food_name"
+                android:textColor="#292828"
+                android:textSize="20sp"
+                android:gravity="center" android:id="@+id/food_name"/>
+        <RatingBar
+ android:id="@+id/foodlist_rating"               android:layout_width="wrap_content" android:layout_height="wrap_content"
+                   android:max="5"
+
+                  android:isIndicator="true" android:layout_gravity="center"/>
+    </LinearLayout>
+
+
+</LinearLayout>
+

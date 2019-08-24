@@ -5,4 +5,21 @@
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="food_category_icon_width_small"></dimen>
+    <dimen name="food_category_icon_width_hdpi">80dip</dimen>
+    <dimen name="food_category_icon_height_hdpi">80dip</dimen>
+    <dimen name="food_category_icon_width_xhdpi">110dip</dimen>
+    <dimen name="food_category_icon_height_xhdpi">110dip</dimen>
+    <dimen name="food_category_icon_width_xxhdpi">130dip</dimen>
+    <dimen name="food_category_icon_height_xxhdpi">130dip</dimen>
+    <dimen name="fooditem_icon_height_hdpi">100dip</dimen>
+    <dimen name="fooditem_icon_width_hdpi">100dip</dimen>
+    <dimen name="fooditem_icon_height_xhdpi">125dip</dimen>
+    <dimen name="fooditem_icon_width_xhdpi">125dip</dimen>
+    <dimen name="singlefood_height_xhdpi">250dip</dimen>
+    <dimen name="singlefood_height_xxhdpi">300dip</dimen>
+
+    <dimen name="singlefood_height_xxxhdpi">350dip</dimen>
+
+
 </resources>
